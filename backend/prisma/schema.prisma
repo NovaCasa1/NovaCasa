@@ -5,61 +5,60 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 // Users
 model User {
-  id                  BigInt              @id @default(autoincrement())
-  password            String              @db.VarChar(255)
-  email               String              @unique
-  photoUrl            String?
-  telephone           String              @db.VarChar(20)
-  dni                 String?              @unique
-  birthdate           DateTime
-  name                String
-  surname             String
-  countryId           BigInt
-  eu                  Boolean
-  country             Country             @relation(fields: [countryId], references: [id])
-  favSearchDwellings  FavSearchDwelling[]
-  favSearchJobs       FavSearchJob[]
-  favSearchCities     FavSearchCity[]
-  favJobs             FavJob[]
-  favCountries        FavCountry[]
-  favDwellings        FavDwelling[]
+  id                 BigInt              @id @default(autoincrement())
+  password           String              @db.VarChar(255)
+  email              String              @unique
+  photoUrl           String?
+  telephone          String              @db.VarChar(20)
+  dni                String?             @unique
+  birthdate          DateTime
+  name               String
+  surname            String
+  countryId          BigInt
+  eu                 Boolean
+  country            Country             @relation(fields: [countryId], references: [id])
+  favSearchDwellings FavSearchDwelling[]
+  favSearchJobs      FavSearchJob[]
+  favSearchCities    FavSearchCity[]
+  favJobs            FavJob[]
+  favCountries       FavCountry[]
+  favDwellings       FavDwelling[]
 
   @@map("User")
 }
 
 // FavSearchDwelling
 model FavSearchDwelling {
-  id            BigInt @id @default(autoincrement())
-  direction     String
-  cityId        BigInt
-  type          String
-  rooms         Int
-  squareMeters  Float
-  price         Float
-  bathrooms     Int
-  userId        BigInt
-  user          User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           BigInt @id @default(autoincrement())
+  direction    String
+  cityId       BigInt
+  type         String
+  rooms        Int
+  squareMeters Float
+  price        Float
+  bathrooms    Int
+  userId       BigInt
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("FavSearchDwelling")
 }
 
 // FavSearchJob
 model FavSearchJob {
-  id          BigInt @id @default(autoincrement())
-  cityId      BigInt
-  workSector  String
-  experience  String
-  workday     String
-  salary      Float
-  contract    String
-  userId      BigInt
-  city        City   @relation(fields: [cityId], references: [id])
-  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         BigInt @id @default(autoincrement())
+  cityId     BigInt
+  workSector String
+  experience String
+  workday    String
+  salary     Float
+  contract   String
+  userId     BigInt
+  city       City   @relation(fields: [cityId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("FavSearchJob")
 }
@@ -132,33 +131,33 @@ model Document {
 
 // Country
 model Country {
-  id               BigInt            @id @default(autoincrement())
-  name             String            @unique
-  code             String            @unique
-  continent        String
-  flagUrl          String?
-  users            User[]
-  cities           City[]
-  livingCost       LivingCost?
-  jobOffers        JobOffer[]
-  procedures       Procedure[]
-  favSearchCities  FavSearchCity[]
-  favCountries     FavCountry[]
+  id              BigInt          @id @default(autoincrement())
+  name            String          @unique
+  code            String          @unique
+  continent       String
+  flagUrl         String?
+  users           User[]
+  cities          City[]
+  livingCost      LivingCost?
+  jobOffers       JobOffer[]
+  procedures      Procedure[]
+  favSearchCities FavSearchCity[]
+  favCountries    FavCountry[]
 
   @@map("Country")
 }
 
 // City
 model City {
-  id              BigInt          @id @default(autoincrement())
-  name            String
-  code            String
-  countryId       BigInt
-  country         Country         @relation(fields: [countryId], references: [id])
-  companies       Company[]
-  dwellings       Dwelling[]
-  jobOffers       JobOffer[]
-  favSearchJobs   FavSearchJob[]
+  id            BigInt         @id @default(autoincrement())
+  name          String
+  code          String
+  countryId     BigInt
+  country       Country        @relation(fields: [countryId], references: [id])
+  companies     Company[]
+  dwellings     Dwelling[]
+  jobOffers     JobOffer[]
+  favSearchJobs FavSearchJob[]
 
   @@map("City")
 }
@@ -176,7 +175,7 @@ model LivingCost {
 
 // JobOffer
 model JobOffer {
-  id             BigInt     @id @default(autoincrement())
+  id             BigInt   @id @default(autoincrement())
   title          String
   description    String
   companyId      BigInt
@@ -189,9 +188,9 @@ model JobOffer {
   workSector     String
   workday        String
   salary         Float
-  company        Company    @relation(fields: [companyId], references: [id])
-  country        Country    @relation(fields: [countryId], references: [id])
-  city           City       @relation(fields: [cityId], references: [id])
+  company        Company  @relation(fields: [companyId], references: [id])
+  country        Country  @relation(fields: [countryId], references: [id])
+  city           City     @relation(fields: [cityId], references: [id])
   favJobs        FavJob[]
 
   @@map("JobOffer")

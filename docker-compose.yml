@@ -3,10 +3,12 @@ version: '3.8'
 services:
   db:
     image: postgres:16
+    container_name: novacasa_db
+    restart: always
     environment:
-      POSTGRES_USER: usuario
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mi_base
+      POSTGRES_USER: casanova
+      POSTGRES_PASSWORD: estocolmo_rubias
+      POSTGRES_DB: novacasadb
     ports:
       - "5432:5432"
     volumes:
