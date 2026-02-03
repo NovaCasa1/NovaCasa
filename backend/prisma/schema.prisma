@@ -11,11 +11,11 @@ datasource db {
 // Users
 model User {
   id                  BigInt              @id @default(autoincrement())
-  password            String
+  password            String              @db.VarChar(255)
   email               String              @unique
   photoUrl            String?
-  telephone           String
-  dni                 String              @unique
+  telephone           String              @db.VarChar(20)
+  dni                 String?              @unique
   birthdate           DateTime
   name                String
   surname             String
