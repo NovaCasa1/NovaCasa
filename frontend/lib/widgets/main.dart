@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/app_bar.dart';
+import 'package:flutterproject/widgets/app_bar.dart';
 
 void main() {
   runApp(const MyApp());
