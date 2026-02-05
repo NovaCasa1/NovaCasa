@@ -1,0 +1,237 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Users
+model User {
+  id                 BigInt              @id @default(autoincrement())
+  password           String              @db.VarChar(255)
+  email              String              @unique
+  photoUrl           String?
+  telephone          String              @db.VarChar(20)
+  dni                String?             @unique
+  birthdate          DateTime
+  name               String
+  surname            String
+  countryId          BigInt
+  eu                 Boolean
+  country            Country             @relation(fields: [countryId], references: [id])
+  favSearchDwellings FavSearchDwelling[]
+  favSearchJobs      FavSearchJob[]
+  favSearchCities    FavSearchCity[]
+  favJobs            FavJob[]
+  favCountries       FavCountry[]
+  favDwellings       FavDwelling[]
+
+  @@map("User")
+}
+
+// FavSearchDwelling
+model FavSearchDwelling {
+  id           BigInt @id @default(autoincrement())
+  direction    String
+  cityId       BigInt
+  type         String
+  rooms        Int
+  squareMeters Float
+  price        Float
+  bathrooms    Int
+  userId       BigInt
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("FavSearchDwelling")
+}
+
+// FavSearchJob
+model FavSearchJob {
+  id         BigInt @id @default(autoincrement())
+  cityId     BigInt
+  workSector String
+  experience String
+  workday    String
+  salary     Float
+  contract   String
+  userId     BigInt
+  city       City   @relation(fields: [cityId], references: [id])
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("FavSearchJob")
+}
+
+// FavSearchCity
+model FavSearchCity {
+  id        BigInt  @id @default(autoincrement())
+  countryId BigInt
+  userId    BigInt
+  country   Country @relation(fields: [countryId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("FavSearchCity")
+}
+
+// FavJob
+model FavJob {
+  id     BigInt   @id @default(autoincrement())
+  userId BigInt
+  jobId  BigInt
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job    JobOffer @relation(fields: [jobId], references: [id])
+
+  @@map("FavJob")
+}
+
+// FavCountry
+model FavCountry {
+  id        BigInt  @id @default(autoincrement())
+  userId    BigInt
+  countryId BigInt
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  country   Country @relation(fields: [countryId], references: [id])
+
+  @@map("FavCountry")
+}
+
+// FavDwelling
+model FavDwelling {
+  id         BigInt   @id @default(autoincrement())
+  userId     BigInt
+  dwellingId BigInt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  dwelling   Dwelling @relation(fields: [dwellingId], references: [id])
+
+  @@map("FavDwelling")
+}
+
+// Procedure
+model Procedure {
+  id         BigInt     @id @default(autoincrement())
+  name       String
+  lastUpdate DateTime   @updatedAt
+  countryId  BigInt
+  country    Country    @relation(fields: [countryId], references: [id])
+  documents  Document[]
+
+  @@map("Procedure")
+}
+
+// Document
+model Document {
+  id          BigInt    @id @default(autoincrement())
+  type        String
+  procedureId BigInt
+  procedure   Procedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  @@map("Document")
+}
+
+// Country
+model Country {
+  id              BigInt          @id @default(autoincrement())
+  name            String          @unique
+  code            String          @unique
+  continent       String
+  flagUrl         String?
+  users           User[]
+  cities          City[]
+  livingCost      LivingCost?
+  jobOffers       JobOffer[]
+  procedures      Procedure[]
+  favSearchCities FavSearchCity[]
+  favCountries    FavCountry[]
+
+  @@map("Country")
+}
+
+// City
+model City {
+  id            BigInt         @id @default(autoincrement())
+  name          String
+  code          String
+  countryId     BigInt
+  country       Country        @relation(fields: [countryId], references: [id])
+  companies     Company[]
+  dwellings     Dwelling[]
+  jobOffers     JobOffer[]
+  favSearchJobs FavSearchJob[]
+
+  @@map("City")
+}
+
+// LivingCost
+model LivingCost {
+  countryId       BigInt  @id
+  foodCost        Float
+  transportCost   Float
+  monthlyEstimate Float
+  country         Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+
+  @@map("LivingCost")
+}
+
+// JobOffer
+model JobOffer {
+  id             BigInt   @id @default(autoincrement())
+  title          String
+  description    String
+  companyId      BigInt
+  countryId      BigInt
+  cityId         BigInt
+  contract       String
+  timestampStart DateTime
+  timestampEnd   DateTime
+  requirements   String
+  workSector     String
+  workday        String
+  salary         Float
+  company        Company  @relation(fields: [companyId], references: [id])
+  country        Country  @relation(fields: [countryId], references: [id])
+  city           City     @relation(fields: [cityId], references: [id])
+  favJobs        FavJob[]
+
+  @@map("JobOffer")
+}
+
+// Company
+model Company {
+  id        BigInt     @id @default(autoincrement())
+  name      String
+  cityId    BigInt
+  city      City       @relation(fields: [cityId], references: [id])
+  jobOffers JobOffer[]
+
+  @@map("Company")
+}
+
+// Dwelling
+model Dwelling {
+  id           BigInt        @id @default(autoincrement())
+  direction    String
+  cityId       BigInt
+  zipCode      String
+  type         String
+  rooms        Int
+  meters       Float
+  ownerId      BigInt
+  price        Float
+  city         City          @relation(fields: [cityId], references: [id])
+  owner        Owner         @relation(fields: [ownerId], references: [id])
+  favDwellings FavDwelling[]
+
+  @@map("Dwelling")
+}
+
+// Owner
+model Owner {
+  id        BigInt     @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  telephone String
+  dwellings Dwelling[]
+
+  @@map("Owner")
+}
