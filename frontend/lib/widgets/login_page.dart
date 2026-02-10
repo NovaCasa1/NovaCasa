@@ -8,184 +8,202 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Controladores para los campos de texto
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  
-  // Variables para validar y mostrar estado
-  bool _obscurePassword = true;
-  bool _isLoading = false;
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  // Función para validar y enviar el formulario
-void _handleLogin() {
-  if (_formKey.currentState!.validate()) {
-    setState(() {
-      _isLoading = true;
-    });
-
-    // Simular llamada al backend
-    Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        _isLoading = false;
-      });
-      
-      // Navegar a la página de inicio
-      Navigator.of(context).pushReplacementNamed('/home');
-      
-      // O si prefieres sin rutas nombradas, usa:
-      // Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (context) => const HomePage()),
-      // );
-    });
-  }
-}
+  bool _rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Iniciar Sesión'),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Container(
+          // Contenedor principal con sombra suave
+          margin: const EdgeInsets.all(20),
+          height: 550,
+          width: 900,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 20,
+                spreadRadius: 5,
+              )
+            ],
+          ),
+          child: Row(
             children: [
-              // Logo o titulo
-              const SizedBox(height: 40),
-              const Text(
-                'Bienvenido a NovaCasa',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Inicia sesión para continuar',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(height: 48),
-
-              // Campo de Email
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: 'Correo Electrónico',
-                  hintText: 'ejemplo@correo.com',
-                  prefixIcon: const Icon(Icons.email),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'El correo es obligatorio';
-                  }
-                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value!)) {
-                    return 'Ingresa un correo válido';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Campo de Contraseña
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                  hintText: 'Ingresa tu contraseña',
-                  prefixIcon: const Icon(Icons.lock),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility_off : Icons.visibility,
+              // LADO IZQUIERDO: FORMULARIO AZUL
+              Expanded(
+                flex: 4,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF007BFF), // Azul vibrante de la imagen
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40),
+                      bottomLeft: Radius.circular(40),
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                obscureText: _obscurePassword,
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'La contraseña es obligatoria';
-                  }
-                  if (value!.length < 6) {
-                    return 'La contraseña debe tener al menos 6 caracteres';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 24),
-
-              // Botón de Login
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _handleLogin,
-                  child: _isLoading
-                      ? const SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Logo NovaCasa
+                      Row(
+                        children: [
+                          const Icon(Icons.terrain, color: Colors.white, size: 30),
+                          const SizedBox(width: 8),
+                          Text(
+                            'NovaCasa',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        )
-                      : const Text(
-                          'Iniciar Sesión',
-                          style: TextStyle(fontSize: 16),
+                        ],
+                      ),
+                      const SizedBox(height: 40),
+                      const Text(
+                        'Iniciar Sesion',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
                         ),
+                      ),
+                      const Text(
+                        'Bienvenidos, por favor introduce tus credenciales',
+                        style: TextStyle(color: Colors.white70, fontSize: 13),
+                      ),
+                      const SizedBox(height: 30),
+                      
+                      // Campo Email
+                      const Text('Email', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 8),
+                      _buildTextField(_emailController, 'Introduce el email'),
+                      
+                      const SizedBox(height: 20),
+                      
+                      // Campo Contraseña
+                      const Text('Contraseña', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 8),
+                      _buildTextField(_passwordController, '', isPassword: true),
+                      
+                      // Checkbox Recordar
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: _rememberMe,
+                            onChanged: (val) => setState(() => _rememberMe = val!),
+                            side: const BorderSide(color: Colors.white),
+                            checkColor: Colors.blue,
+                            activeColor: Colors.white,
+                          ),
+                          const Text('Recordar contraseña', style: TextStyle(color: Colors.white, fontSize: 12)),
+                        ],
+                      ),
+                      
+                      const SizedBox(height: 20),
+                      
+                      // Botón Continuar (Cian)
+                      SizedBox(
+                        width: double.infinity,
+                        height: 45,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF98E9F0), // Color cian claro
+                            foregroundColor: Colors.black87,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 5,
+                            shadowColor: Colors.black45,
+                          ),
+                          child: const Text('Continuar', style: TextStyle(fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                      
+                      const Spacer(),
+                      
+                      // Link Registro
+                      Center(
+                        child: Text.rich(
+                          TextSpan(
+                            text: '¿No te has registrado? ',
+                            style: const TextStyle(color: Colors.white70, fontSize: 12),
+                            children: [
+                              TextSpan(
+                                text: 'Registrate',
+                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 16),
-
-              // Enlace de registro
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('¿No tienes cuenta? '),
-                  GestureDetector(
-                    onTap: () {
-                      // Navegar a pantalla de registro
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Navegar a registro')),
-                      );
-                    },
-                    child: const Text(
-                      'Regístrate aquí',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
+              
+              // LADO DERECHO: IMAGEN
+              Expanded(
+                flex: 5,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(40),
+                      bottomRight: Radius.circular(40),
+                    ),
+                    image: const DecorationImage(
+                      image: NetworkImage('https://images.unsplash.com/photo-1503220317375-aaad61436b1b?q=80&w=2070'), // Imagen de ejemplo de viaje
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(40),
+                        bottomRight: Radius.circular(40),
+                      ),
+                      gradient: LinearGradient(
+                        colors: [Colors.blue.withOpacity(0.3), Colors.transparent],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String hint, {bool isPassword = false}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 4,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      child: TextField(
+        controller: controller,
+        obscureText: isPassword,
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          border: InputBorder.none,
         ),
       ),
     );

@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-/// Top-level entry library for tests and tooling.
-/// Re-exports the app so tests can import `package:flutterproject/main.dart`.
-export 'pages/main.dart';
-=======
 import 'package:flutter/material.dart';
-import '../widgets/login_page.dart';
-import 'homePage.dart';
+import 'widgets/login_page.dart';
+import 'widgets/homePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,4 +26,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
->>>>>>> bae10f8f2d7c316cde1a886162a1acd7a2cbffc6
