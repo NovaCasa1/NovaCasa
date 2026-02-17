@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'widgets/app_bar.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
-
+//Prueba para hector
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // The MaterialApp widget is the top-level widget for a Flutter application that
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
