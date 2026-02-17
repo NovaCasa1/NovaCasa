@@ -1,0 +1,15 @@
+{
+  "name": "backend-prisma",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/client": "^7.3.0",
+    "@types/node": "^25.2.1",
+    "dotenv": "^17.2.3",
+    "prisma": "^7.3.0"
+  }
+}
