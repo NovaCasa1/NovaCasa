@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'register_Page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.black.withOpacity(0.1),
                 blurRadius: 20,
                 spreadRadius: 5,
-              )
+              ),
             ],
           ),
           child: Row(
@@ -39,7 +40,10 @@ class _LoginPageState extends State<LoginPage> {
               Expanded(
                 flex: 4,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 30),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 30,
+                  ),
                   decoration: const BoxDecoration(
                     color: Color(0xFF007BFF), // Azul vibrante de la imagen
                     borderRadius: BorderRadius.only(
@@ -53,7 +57,11 @@ class _LoginPageState extends State<LoginPage> {
                       // Logo NovaCasa
                       Row(
                         children: [
-                          const Icon(Icons.terrain, color: Colors.white, size: 30),
+                          const Icon(
+                            Icons.terrain,
+                            color: Colors.white,
+                            size: 30,
+                          ),
                           const SizedBox(width: 8),
                           Text(
                             'NovaCasa',
@@ -79,35 +87,55 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(color: Colors.white70, fontSize: 13),
                       ),
                       const SizedBox(height: 30),
-                      
+
                       // Campo Email
-                      const Text('Email', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Email',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 8),
                       _buildTextField(_emailController, 'Introduce el email'),
-                      
+
                       const SizedBox(height: 20),
-                      
+
                       // Campo Contraseña
-                      const Text('Contraseña', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      const Text(
+                        'Contraseña',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       const SizedBox(height: 8),
-                      _buildTextField(_passwordController, '', isPassword: true),
-                      
+                      _buildTextField(
+                        _passwordController,
+                        '',
+                        isPassword: true,
+                      ),
+
                       // Checkbox Recordar
                       Row(
                         children: [
                           Checkbox(
                             value: _rememberMe,
-                            onChanged: (val) => setState(() => _rememberMe = val!),
+                            onChanged: (val) =>
+                                setState(() => _rememberMe = val!),
                             side: const BorderSide(color: Colors.white),
                             checkColor: Colors.blue,
                             activeColor: Colors.white,
                           ),
-                          const Text('Recordar contraseña', style: TextStyle(color: Colors.white, fontSize: 12)),
+                          const Text(
+                            'Recordar contraseña',
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
                         ],
                       ),
-                      
+
                       const SizedBox(height: 20),
-                      
+
                       // Botón Continuar (Cian)
                       SizedBox(
                         width: double.infinity,
@@ -115,30 +143,55 @@ class _LoginPageState extends State<LoginPage> {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF98E9F0), // Color cian claro
+                            backgroundColor: const Color(
+                              0xFF98E9F0,
+                            ), // Color cian claro
                             foregroundColor: Colors.black87,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             elevation: 5,
                             shadowColor: Colors.black45,
                           ),
-                          child: const Text('Continuar', style: TextStyle(fontWeight: FontWeight.bold)),
+                          child: const Text(
+                            'Continuar',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
-                      
+
                       const Spacer(),
-                      
+
                       // Link Registro
+                      // Link Registro clicable
                       Center(
-                        child: Text.rich(
-                          TextSpan(
-                            text: '¿No te has registrado? ',
-                            style: const TextStyle(color: Colors.white70, fontSize: 12),
-                            children: [
-                              TextSpan(
-                                text: 'Registrate',
-                                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const RegisterPage(),
                               ),
-                            ],
+                            );
+                          },
+                          child: const Text.rich(
+                            TextSpan(
+                              text: '¿No te has registrado? ',
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Registrate',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -146,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              
+
               // LADO DERECHO: IMAGEN
               Expanded(
                 flex: 5,
@@ -157,7 +210,9 @@ class _LoginPageState extends State<LoginPage> {
                       bottomRight: Radius.circular(40),
                     ),
                     image: const DecorationImage(
-                      image: NetworkImage('https://images.unsplash.com/photo-1503220317375-aaad61436b1b?q=80&w=2070'), // Imagen de ejemplo de viaje
+                      image: NetworkImage(
+                        'https://images.unsplash.com/photo-1503220317375-aaad61436b1b?q=80&w=2070',
+                      ), // Imagen de ejemplo de viaje
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -168,7 +223,10 @@ class _LoginPageState extends State<LoginPage> {
                         bottomRight: Radius.circular(40),
                       ),
                       gradient: LinearGradient(
-                        colors: [Colors.blue.withOpacity(0.3), Colors.transparent],
+                        colors: [
+                          Colors.blue.withOpacity(0.3),
+                          Colors.transparent,
+                        ],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
@@ -183,7 +241,11 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String hint, {bool isPassword = false}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String hint, {
+    bool isPassword = false,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -193,7 +255,7 @@ class _LoginPageState extends State<LoginPage> {
             color: Colors.black.withOpacity(0.2),
             blurRadius: 4,
             offset: const Offset(0, 4),
-          )
+          ),
         ],
       ),
       child: TextField(
@@ -202,7 +264,10 @@ class _LoginPageState extends State<LoginPage> {
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 10,
+          ),
           border: InputBorder.none,
         ),
       ),
