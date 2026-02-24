@@ -59,6 +59,7 @@ flutter:
 
   assets:
     - assets/icons/logo-NovaCasa.png
+    - assets/images/foto-login-avion-NovaCasa.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

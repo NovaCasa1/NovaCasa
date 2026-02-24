@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Pantalla de Login con controladores y seguridad de contraseña
 class MobLoginPage extends StatefulWidget {
   const MobLoginPage({super.key});
 
@@ -9,11 +8,9 @@ class MobLoginPage extends StatefulWidget {
 }
 
 class _MobLoginPageState extends State<MobLoginPage> {
-  // Controladores
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  // Estado del checkbox y visibilidad de contraseña
   bool rememberMe = false;
   bool isPasswordVisible = false;
 
@@ -24,27 +21,24 @@ class _MobLoginPageState extends State<MobLoginPage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          // ================= FOTO DE FONDO (TUYA)
-          Column(
-            children: [
-              Container(
-                height: 250,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      "https://media.istockphoto.com/id/1254973568/es/foto/sal%C3%B3n-de-la-terminal-del-aeropuerto-vac%C3%ADo-con-avi%C3%B3n-en-segundo-plano.jpg?s=612x612&w=0&k=20&c=jNtEZsiRA_t2RA4T3ZpF3q2LIh7c_Jnyfl-yHDp_1z8=",
-                    ),
-                    fit: BoxFit.cover,
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Stack(
+      children: [
+        Column(
+          children: [
+            Container(
+              height: 250,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/images/foto-login-avion-NovaCasa.jpg", 
                   ),
+                  fit: BoxFit.cover,
                 ),
               ),
-
-              // ================= CONTENIDO ORIGINAL
+            ),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -68,7 +62,6 @@ class _MobLoginPageState extends State<MobLoginPage> {
                         ),
                         const SizedBox(height: 25),
 
-                        // Campo Email
                         TextField(
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
@@ -84,7 +77,6 @@ class _MobLoginPageState extends State<MobLoginPage> {
                         ),
                         const SizedBox(height: 15),
 
-                        // Campo Password
                         TextField(
                           controller: passwordController,
                           obscureText: !isPasswordVisible,
@@ -110,7 +102,6 @@ class _MobLoginPageState extends State<MobLoginPage> {
                         ),
                         const SizedBox(height: 10),
 
-                        // Checkbox + Forgot password
                         Row(
                           mainAxisAlignment:
                               MainAxisAlignment.spaceBetween,
@@ -137,7 +128,6 @@ class _MobLoginPageState extends State<MobLoginPage> {
                         ),
                         const SizedBox(height: 15),
 
-                        // Botón Sign In
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -181,7 +171,6 @@ class _MobLoginPageState extends State<MobLoginPage> {
                         ),
                         const SizedBox(height: 20),
 
-                        // Sign Up
                         Row(
                           mainAxisAlignment:
                               MainAxisAlignment.center,
@@ -202,7 +191,6 @@ class _MobLoginPageState extends State<MobLoginPage> {
             ],
           ),
 
-          // ================= LOGO CENTRADO ARRIBA
           Positioned(
             top: 40,
             left: 0,
@@ -215,14 +203,12 @@ class _MobLoginPageState extends State<MobLoginPage> {
             ),
           ),
 
-          // ================= BOTÓN IDIOMA ARRIBA DERECHA
           Positioned(
             top: 40,
             right: 15,
             child: IconButton(
               icon: const Icon(Icons.language, color: Colors.blue),
               onPressed: () {
-                // TODO: cambiar idioma
               },
             ),
           ),
