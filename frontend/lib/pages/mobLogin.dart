@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'mobHomePage.dart';
 
-
 class MobLoginPage extends StatefulWidget {
   const MobLoginPage({super.key});
 
@@ -23,24 +22,24 @@ class _MobLoginPageState extends State<MobLoginPage> {
     super.dispose();
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: Stack(
-      children: [
-        Column(
-          children: [
-            Container(
-              height: 250,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    "assets/images/foto-login-avion-NovaCasa.jpg", 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Container(
+                height: 250,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      "assets/images/foto-login-avion-NovaCasa.jpg",
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
-            ),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -91,9 +90,11 @@ Widget build(BuildContext context) {
                               borderSide: BorderSide.none,
                             ),
                             suffixIcon: IconButton(
-                              icon: Icon(isPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                              icon: Icon(
+                                isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   isPasswordVisible = !isPasswordVisible;
@@ -153,8 +154,13 @@ Widget build(BuildContext context) {
                                 return;
                               }
 
-                              print("Email: $email");
-                              print("Password: $password");
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const MobHomePage(),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue,
@@ -166,8 +172,9 @@ Widget build(BuildContext context) {
                             child: const Text(
                               "Sign In",
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white),
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
@@ -209,9 +216,9 @@ Widget build(BuildContext context) {
             top: 40,
             right: 15,
             child: IconButton(
-              icon: const Icon(Icons.language, color: Colors.blue),
-              onPressed: () {
-              },
+              icon:
+                  const Icon(Icons.language, color: Colors.blue),
+              onPressed: () {},
             ),
           ),
         ],
