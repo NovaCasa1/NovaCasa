@@ -1,22 +1,27 @@
 import 'package:flutter/material.dart';
+import 'pages/mobLogin.dart';
 import 'widgets/login_Register/login_page.dart';
 import 'widgets/homePage.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
-//Prueba para hector
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // The MaterialApp widget is the top-level widget for a Flutter application that
     return MaterialApp(
+      title: 'Mi App Flutter',
+      debugShowCheckedModeBanner: false,
       title: 'NovaCasa',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MobLoginPage(), // Arranca en LoginPage
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
