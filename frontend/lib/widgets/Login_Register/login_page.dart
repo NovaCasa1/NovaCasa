@@ -58,13 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                       // Logo NovaCasa
                       Row(
                         children: [
-                          const Icon(
-                            Icons.terrain,
-                            color: AppTheme.white,
-                            size: AppTheme.logoIconSize,
+                          Image.asset(
+                            'assets/icons/logo-NovaCasa.png',
+                            height: AppTheme.logoIconSize,
+                            width: AppTheme.logoIconSize,
                           ),
-                          const SizedBox(width: 8),
-                          Text('NovaCasa', style: AppTheme.logoText),
                         ],
                       ),
 

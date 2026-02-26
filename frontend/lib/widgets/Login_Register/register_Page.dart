@@ -99,11 +99,11 @@ class _RegisterPageState extends State<RegisterPage>
                           // Logo NovaCasa
                           Row(
                             children: [
-                              const Icon(Icons.terrain,
-                                  color: AppTheme.white,
-                                  size: AppTheme.logoIconSize),
-                              const SizedBox(width: 8),
-                              Text('NovaCasa', style: AppTheme.logoText),
+                              Image.asset(
+                                'assets/icons/logo-NovaCasa.png',
+                                height: AppTheme.logoIconSize,
+                                width: AppTheme.logoIconSize,
+                              ),
                             ],
                           ),
 

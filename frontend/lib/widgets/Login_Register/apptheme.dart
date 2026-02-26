@@ -9,7 +9,7 @@ class AppTheme {
   static const double cardRadius = 40;
   static const double formPaddingH = 40;
   static const double formPaddingV = 30;
-  static const double logoIconSize = 30;
+  static const double logoIconSize = 72;
   static const double buttonHeight = 45;
   static const double fieldRadius = 10;
 
