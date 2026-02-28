@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
 import '../components/mobApp_bar.dart';
+import '../components/mobNav_bar.dart';
 
-class MobHomePage extends StatelessWidget {
+class MobHomePage extends StatefulWidget {
   const MobHomePage({super.key});
+
+  @override
+  State<MobHomePage> createState() => _MobHomePageState();
+}
+
+class _MobHomePageState extends State<MobHomePage> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = const [
+    _HomeContent(),
+    _PlaceholderPage(icon: Icons.person_rounded, label: "Perfil"),
+    _PlaceholderPage(icon: Icons.settings_rounded, label: "Ajustes"),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -12,87 +26,108 @@ class MobHomePage extends StatelessWidget {
         title: "NovaCasa",
         showBackButton: false,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header Banner
-            _buildHeader(),
-            const SizedBox(height: 30),
-
-            // Sección de categorías principales
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "¿Qué estás buscando?",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF1A1A2E),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    "Selecciona una categoría para comenzar",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Tarjeta grande: Vivienda
-                  _categoryCard(
-                    context,
-                    icon: Icons.home_rounded,
-                    label: "Vivienda",
-                    description: "Compra, alquiler y venta de propiedades",
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Tarjeta grande: Trabajo
-                  _categoryCard(
-                    context,
-                    icon: Icons.work_rounded,
-                    label: "Trabajo",
-                    description: "Ofertas de empleo y oportunidades laborales",
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF2E7D32), Color(0xFF66BB6A)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Tarjeta grande: Trámites
-                  _categoryCard(
-                    context,
-                    icon: Icons.assignment_rounded,
-                    label: "Trámites",
-                    description: "Gestión de documentos y procedimientos",
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF6A1B9A), Color(0xFFAB47BC)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              ),
-            ),
-          ],
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 250),
+        switchInCurve: Curves.easeOutCubic,
+        switchOutCurve: Curves.easeInCubic,
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 0.04),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         ),
+        child: KeyedSubtree(
+          key: ValueKey(_currentIndex),
+          child: _pages[_currentIndex],
+        ),
+      ),
+      bottomNavigationBar: MobNavBar(
+        currentIndex: _currentIndex,
+        onTap: (index) => setState(() => _currentIndex = index),
+      ),
+    );
+  }
+}
+
+// ─── Contenido principal del Home ────────────────────────────────────────────
+
+class _HomeContent extends StatelessWidget {
+  const _HomeContent();
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "¿Qué estás buscando?",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1A1A2E),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  "Selecciona una categoría para comenzar",
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+                const SizedBox(height: 24),
+                _categoryCard(
+                  context,
+                  icon: Icons.home_rounded,
+                  label: "Vivienda",
+                  description: "Compra, alquiler y venta de propiedades",
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: 16),
+                _categoryCard(
+                  context,
+                  icon: Icons.work_rounded,
+                  label: "Trabajo",
+                  description: "Ofertas de empleo y oportunidades laborales",
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF2E7D32), Color(0xFF66BB6A)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: 16),
+                _categoryCard(
+                  context,
+                  icon: Icons.assignment_rounded,
+                  label: "Trámites",
+                  description: "Gestión de documentos y procedimientos",
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFF6A1B9A), Color(0xFFAB47BC)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  onTap: () {},
+                ),
+                const SizedBox(height: 30),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -128,10 +163,7 @@ class MobHomePage extends StatelessWidget {
                 children: const [
                   Text(
                     "Bienvenido 👋",
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 13,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 13),
                   ),
                   Text(
                     "NovaCasa",
@@ -162,7 +194,6 @@ class MobHomePage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          // Search bar
           Container(
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -252,6 +283,48 @@ class MobHomePage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+// ─── Placeholder para páginas aún no implementadas ───────────────────────────
+
+class _PlaceholderPage extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _PlaceholderPage({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1A1A2E).withOpacity(0.08),
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Icon(icon, size: 48, color: const Color(0xFF1A1A2E)),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF1A1A2E),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "Próximamente disponible",
+            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
+          ),
+        ],
       ),
     );
   }
