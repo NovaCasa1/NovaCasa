@@ -7,74 +7,89 @@ class MobHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF4F6FA),
       appBar: const MobAppBar(
-        title: "Home",
+        title: "NovaCasa",
         showBackButton: false,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
-            const Text(
-              "Welcome to NovaCasa 🏠",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              "Your real estate journey starts here.",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
+            // Header Banner
+            _buildHeader(),
             const SizedBox(height: 30),
 
-            // 🌟 Sección Destacados
-            const Text(
-              "Featured Properties",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 15),
-            SizedBox(
-              height: 180,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
+            // Sección de categorías principales
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _propertyCard("Modern Apartment", "assets/images/property1.jpg"),
-                  _propertyCard("Cozy House", "assets/images/property2.jpg"),
-                  _propertyCard("Luxury Villa", "assets/images/property3.jpg"),
+                  const Text(
+                    "¿Qué estás buscando?",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1A1A2E),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    "Selecciona una categoría para comenzar",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Tarjeta grande: Vivienda
+                  _categoryCard(
+                    context,
+                    icon: Icons.home_rounded,
+                    label: "Vivienda",
+                    description: "Compra, alquiler y venta de propiedades",
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Tarjeta grande: Trabajo
+                  _categoryCard(
+                    context,
+                    icon: Icons.work_rounded,
+                    label: "Trabajo",
+                    description: "Ofertas de empleo y oportunidades laborales",
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF2E7D32), Color(0xFF66BB6A)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Tarjeta grande: Trámites
+                  _categoryCard(
+                    context,
+                    icon: Icons.assignment_rounded,
+                    label: "Trámites",
+                    description: "Gestión de documentos y procedimientos",
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF6A1B9A), Color(0xFFAB47BC)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    onTap: () {},
+                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
-            ),
-            const SizedBox(height: 30),
-
-            // 🔹 Sección Acciones rápidas
-            const Text(
-              "Quick Actions",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _actionCard(Icons.search, "Search"),
-                _actionCard(Icons.favorite, "Favorites"),
-                _actionCard(Icons.person, "Profile"),
-              ],
             ),
           ],
         ),
@@ -82,70 +97,161 @@ class MobHomePage extends StatelessWidget {
     );
   }
 
-  // 🔹 Widget para propiedades destacadas
-  Widget _propertyCard(String title, String imagePath) {
+  Widget _buildHeader() {
     return Container(
-      width: 140,
-      margin: const EdgeInsets.only(right: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(24, 28, 24, 28),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF1A1A2E), Color(0xFF16213E)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 5,
-            offset: Offset(0, 3),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const CircleAvatar(
+                radius: 22,
+                backgroundColor: Color(0xFF42A5F5),
+                child: Icon(Icons.person, color: Colors.white, size: 24),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    "Bienvenido 👋",
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                    ),
+                  ),
+                  Text(
+                    "NovaCasa",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.notifications_none_rounded,
+                    color: Colors.white, size: 26),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            "Tu plataforma integral\npara gestionar tu vida.",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              height: 1.4,
+            ),
+          ),
+          const SizedBox(height: 16),
+          // Search bar
+          Container(
+            height: 48,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white24),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.search, color: Colors.white54, size: 20),
+                SizedBox(width: 10),
+                Text(
+                  "Buscar vivienda, trabajo, trámites...",
+                  style: TextStyle(color: Colors.white54, fontSize: 13),
+                ),
+              ],
+            ),
           ),
         ],
-      ),
-      alignment: Alignment.bottomLeft,
-      padding: const EdgeInsets.all(8),
-      child: Container(
-        color: Colors.black54,
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
     );
   }
 
-  // 🔹 Widget para acciones rápidas
-  Widget _actionCard(IconData icon, String label) {
-    return Container(
-      width: 90,
-      height: 90,
-      decoration: BoxDecoration(
-        color: Colors.blue[50],
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 5,
-            offset: Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 30, color: Colors.blue[800]),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.blue[800],
-              fontWeight: FontWeight.bold,
+  Widget _categoryCard(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required String description,
+    required LinearGradient gradient,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          gradient: gradient,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: gradient.colors.first.withOpacity(0.35),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
             ),
-          ),
-        ],
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Icon(icon, color: Colors.white, size: 32),
+            ),
+            const SizedBox(width: 18),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.85),
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white70,
+              size: 18,
+            ),
+          ],
+        ),
       ),
     );
   }
