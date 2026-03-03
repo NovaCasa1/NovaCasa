@@ -89,7 +89,7 @@ class _HomeContent extends StatelessWidget {
                   context,
                   icon: Icons.home_rounded,
                   label: "Vivienda",
-                  description: "Compra, alquiler y venta de propiedades",
+                  description: "Compra y alquiler de propiedades",
                   gradient: const LinearGradient(
                     colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
                     begin: Alignment.topLeft,
