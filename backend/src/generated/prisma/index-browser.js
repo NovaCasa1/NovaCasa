@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.3.0
- * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+ * Prisma Client JS version: 7.4.2
+ * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
  */
 Prisma.prismaVersion = {
-  client: "7.3.0",
-  engine: "9d6ad21cbbceab97458517b147a6a09ff43aa735"
+  client: "7.4.2",
+  engine: "94a226be1cf2967af2541cca5529f0f7ba866919"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -136,7 +136,6 @@ exports.Prisma.UserScalarFieldEnum = {
 
 exports.Prisma.FavSearchDwellingScalarFieldEnum = {
   id: 'id',
-  direction: 'direction',
   cityId: 'cityId',
   type: 'type',
   rooms: 'rooms',
@@ -153,7 +152,7 @@ exports.Prisma.FavSearchJobScalarFieldEnum = {
   experience: 'experience',
   workday: 'workday',
   salary: 'salary',
-  contract: 'contract',
+  journey: 'journey',
   userId: 'userId'
 };
 
@@ -197,7 +196,6 @@ exports.Prisma.DocumentScalarFieldEnum = {
 exports.Prisma.CountryScalarFieldEnum = {
   id: 'id',
   name: 'name',
-  code: 'code',
   continent: 'continent',
   flagUrl: 'flagUrl'
 };
@@ -210,6 +208,7 @@ exports.Prisma.CityScalarFieldEnum = {
 };
 
 exports.Prisma.LivingCostScalarFieldEnum = {
+  id: 'id',
   countryId: 'countryId',
   foodCost: 'foodCost',
   transportCost: 'transportCost',
@@ -226,6 +225,7 @@ exports.Prisma.JobOfferScalarFieldEnum = {
   contract: 'contract',
   timestampStart: 'timestampStart',
   timestampEnd: 'timestampEnd',
+  experience: 'experience',
   requirements: 'requirements',
   workSector: 'workSector',
   workday: 'workday',
@@ -241,6 +241,7 @@ exports.Prisma.CompanyScalarFieldEnum = {
 exports.Prisma.DwellingScalarFieldEnum = {
   id: 'id',
   direction: 'direction',
+  description: 'description',
   cityId: 'cityId',
   zipCode: 'zipCode',
   type: 'type',

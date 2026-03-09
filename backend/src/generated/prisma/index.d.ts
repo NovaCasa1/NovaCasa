@@ -100,7 +100,9 @@ export type Owner = $Result.DefaultSelection<Prisma.$OwnerPayload>
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Users
  * const users = await prisma.user.findMany()
  * ```
@@ -121,7 +123,9 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Users
    * const users = await prisma.user.findMany()
    * ```
@@ -201,7 +205,7 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
@@ -420,8 +424,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.3.0
-   * Query Engine version: 9d6ad21cbbceab97458517b147a6a09ff43aa735
+   * Prisma Client JS version: 7.4.2
+   * Query Engine version: 94a226be1cf2967af2541cca5529f0f7ba866919
    */
   export type PrismaVersion = {
     client: string
@@ -2610,7 +2614,7 @@ export namespace Prisma {
 
   export type UserSumAggregateOutputType = {
     id: bigint | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -2623,7 +2627,7 @@ export namespace Prisma {
     birthdate: Date | null
     name: string | null
     surname: string | null
-    countryId: bigint | null
+    countryId: number | null
     eu: boolean | null
   }
 
@@ -2637,7 +2641,7 @@ export namespace Prisma {
     birthdate: Date | null
     name: string | null
     surname: string | null
-    countryId: bigint | null
+    countryId: number | null
     eu: boolean | null
   }
 
@@ -2806,7 +2810,7 @@ export namespace Prisma {
     birthdate: Date
     name: string
     surname: string
-    countryId: bigint
+    countryId: number
     eu: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -2934,7 +2938,7 @@ export namespace Prisma {
       birthdate: Date
       name: string
       surname: string
-      countryId: bigint
+      countryId: number
       eu: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -3375,7 +3379,7 @@ export namespace Prisma {
     readonly birthdate: FieldRef<"User", 'DateTime'>
     readonly name: FieldRef<"User", 'String'>
     readonly surname: FieldRef<"User", 'String'>
-    readonly countryId: FieldRef<"User", 'BigInt'>
+    readonly countryId: FieldRef<"User", 'Int'>
     readonly eu: FieldRef<"User", 'Boolean'>
   }
     
@@ -3959,7 +3963,7 @@ export namespace Prisma {
 
   export type FavSearchDwellingSumAggregateOutputType = {
     id: bigint | null
-    cityId: bigint | null
+    cityId: number | null
     rooms: number | null
     squareMeters: number | null
     price: number | null
@@ -3969,8 +3973,7 @@ export namespace Prisma {
 
   export type FavSearchDwellingMinAggregateOutputType = {
     id: bigint | null
-    direction: string | null
-    cityId: bigint | null
+    cityId: number | null
     type: string | null
     rooms: number | null
     squareMeters: number | null
@@ -3981,8 +3984,7 @@ export namespace Prisma {
 
   export type FavSearchDwellingMaxAggregateOutputType = {
     id: bigint | null
-    direction: string | null
-    cityId: bigint | null
+    cityId: number | null
     type: string | null
     rooms: number | null
     squareMeters: number | null
@@ -3993,7 +3995,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingCountAggregateOutputType = {
     id: number
-    direction: number
     cityId: number
     type: number
     rooms: number
@@ -4027,7 +4028,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingMinAggregateInputType = {
     id?: true
-    direction?: true
     cityId?: true
     type?: true
     rooms?: true
@@ -4039,7 +4039,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingMaxAggregateInputType = {
     id?: true
-    direction?: true
     cityId?: true
     type?: true
     rooms?: true
@@ -4051,7 +4050,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingCountAggregateInputType = {
     id?: true
-    direction?: true
     cityId?: true
     type?: true
     rooms?: true
@@ -4150,13 +4148,12 @@ export namespace Prisma {
 
   export type FavSearchDwellingGroupByOutputType = {
     id: bigint
-    direction: string
-    cityId: bigint
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId: number | null
+    type: string | null
+    rooms: number | null
+    squareMeters: number | null
+    price: number | null
+    bathrooms: number | null
     userId: bigint
     _count: FavSearchDwellingCountAggregateOutputType | null
     _avg: FavSearchDwellingAvgAggregateOutputType | null
@@ -4181,7 +4178,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    direction?: boolean
     cityId?: boolean
     type?: boolean
     rooms?: boolean
@@ -4194,7 +4190,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    direction?: boolean
     cityId?: boolean
     type?: boolean
     rooms?: boolean
@@ -4207,7 +4202,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    direction?: boolean
     cityId?: boolean
     type?: boolean
     rooms?: boolean
@@ -4220,7 +4214,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingSelectScalar = {
     id?: boolean
-    direction?: boolean
     cityId?: boolean
     type?: boolean
     rooms?: boolean
@@ -4230,7 +4223,7 @@ export namespace Prisma {
     userId?: boolean
   }
 
-  export type FavSearchDwellingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "direction" | "cityId" | "type" | "rooms" | "squareMeters" | "price" | "bathrooms" | "userId", ExtArgs["result"]["favSearchDwelling"]>
+  export type FavSearchDwellingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cityId" | "type" | "rooms" | "squareMeters" | "price" | "bathrooms" | "userId", ExtArgs["result"]["favSearchDwelling"]>
   export type FavSearchDwellingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -4248,13 +4241,12 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
-      direction: string
-      cityId: bigint
-      type: string
-      rooms: number
-      squareMeters: number
-      price: number
-      bathrooms: number
+      cityId: number | null
+      type: string | null
+      rooms: number | null
+      squareMeters: number | null
+      price: number | null
+      bathrooms: number | null
       userId: bigint
     }, ExtArgs["result"]["favSearchDwelling"]>
     composites: {}
@@ -4681,8 +4673,7 @@ export namespace Prisma {
    */
   interface FavSearchDwellingFieldRefs {
     readonly id: FieldRef<"FavSearchDwelling", 'BigInt'>
-    readonly direction: FieldRef<"FavSearchDwelling", 'String'>
-    readonly cityId: FieldRef<"FavSearchDwelling", 'BigInt'>
+    readonly cityId: FieldRef<"FavSearchDwelling", 'Int'>
     readonly type: FieldRef<"FavSearchDwelling", 'String'>
     readonly rooms: FieldRef<"FavSearchDwelling", 'Int'>
     readonly squareMeters: FieldRef<"FavSearchDwelling", 'Float'>
@@ -5118,6 +5109,8 @@ export namespace Prisma {
   export type FavSearchJobAvgAggregateOutputType = {
     id: number | null
     cityId: number | null
+    experience: number | null
+    workday: number | null
     salary: number | null
     userId: number | null
   }
@@ -5125,6 +5118,8 @@ export namespace Prisma {
   export type FavSearchJobSumAggregateOutputType = {
     id: bigint | null
     cityId: bigint | null
+    experience: number | null
+    workday: number | null
     salary: number | null
     userId: bigint | null
   }
@@ -5133,10 +5128,10 @@ export namespace Prisma {
     id: bigint | null
     cityId: bigint | null
     workSector: string | null
-    experience: string | null
-    workday: string | null
+    experience: number | null
+    workday: number | null
     salary: number | null
-    contract: string | null
+    journey: string | null
     userId: bigint | null
   }
 
@@ -5144,10 +5139,10 @@ export namespace Prisma {
     id: bigint | null
     cityId: bigint | null
     workSector: string | null
-    experience: string | null
-    workday: string | null
+    experience: number | null
+    workday: number | null
     salary: number | null
-    contract: string | null
+    journey: string | null
     userId: bigint | null
   }
 
@@ -5158,7 +5153,7 @@ export namespace Prisma {
     experience: number
     workday: number
     salary: number
-    contract: number
+    journey: number
     userId: number
     _all: number
   }
@@ -5167,6 +5162,8 @@ export namespace Prisma {
   export type FavSearchJobAvgAggregateInputType = {
     id?: true
     cityId?: true
+    experience?: true
+    workday?: true
     salary?: true
     userId?: true
   }
@@ -5174,6 +5171,8 @@ export namespace Prisma {
   export type FavSearchJobSumAggregateInputType = {
     id?: true
     cityId?: true
+    experience?: true
+    workday?: true
     salary?: true
     userId?: true
   }
@@ -5185,7 +5184,7 @@ export namespace Prisma {
     experience?: true
     workday?: true
     salary?: true
-    contract?: true
+    journey?: true
     userId?: true
   }
 
@@ -5196,7 +5195,7 @@ export namespace Prisma {
     experience?: true
     workday?: true
     salary?: true
-    contract?: true
+    journey?: true
     userId?: true
   }
 
@@ -5207,7 +5206,7 @@ export namespace Prisma {
     experience?: true
     workday?: true
     salary?: true
-    contract?: true
+    journey?: true
     userId?: true
     _all?: true
   }
@@ -5300,12 +5299,12 @@ export namespace Prisma {
 
   export type FavSearchJobGroupByOutputType = {
     id: bigint
-    cityId: bigint
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    cityId: bigint | null
+    workSector: string | null
+    experience: number | null
+    workday: number | null
+    salary: number | null
+    journey: string | null
     userId: bigint
     _count: FavSearchJobCountAggregateOutputType | null
     _avg: FavSearchJobAvgAggregateOutputType | null
@@ -5335,9 +5334,9 @@ export namespace Prisma {
     experience?: boolean
     workday?: boolean
     salary?: boolean
-    contract?: boolean
+    journey?: boolean
     userId?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | FavSearchJob$cityArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["favSearchJob"]>
 
@@ -5348,9 +5347,9 @@ export namespace Prisma {
     experience?: boolean
     workday?: boolean
     salary?: boolean
-    contract?: boolean
+    journey?: boolean
     userId?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | FavSearchJob$cityArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["favSearchJob"]>
 
@@ -5361,9 +5360,9 @@ export namespace Prisma {
     experience?: boolean
     workday?: boolean
     salary?: boolean
-    contract?: boolean
+    journey?: boolean
     userId?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | FavSearchJob$cityArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["favSearchJob"]>
 
@@ -5374,38 +5373,38 @@ export namespace Prisma {
     experience?: boolean
     workday?: boolean
     salary?: boolean
-    contract?: boolean
+    journey?: boolean
     userId?: boolean
   }
 
-  export type FavSearchJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cityId" | "workSector" | "experience" | "workday" | "salary" | "contract" | "userId", ExtArgs["result"]["favSearchJob"]>
+  export type FavSearchJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cityId" | "workSector" | "experience" | "workday" | "salary" | "journey" | "userId", ExtArgs["result"]["favSearchJob"]>
   export type FavSearchJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | FavSearchJob$cityArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type FavSearchJobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | FavSearchJob$cityArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type FavSearchJobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | FavSearchJob$cityArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $FavSearchJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FavSearchJob"
     objects: {
-      city: Prisma.$CityPayload<ExtArgs>
+      city: Prisma.$CityPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
-      cityId: bigint
-      workSector: string
-      experience: string
-      workday: string
-      salary: number
-      contract: string
+      cityId: bigint | null
+      workSector: string | null
+      experience: number | null
+      workday: number | null
+      salary: number | null
+      journey: string | null
       userId: bigint
     }, ExtArgs["result"]["favSearchJob"]>
     composites: {}
@@ -5801,7 +5800,7 @@ export namespace Prisma {
    */
   export interface Prisma__FavSearchJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    city<T extends FavSearchJob$cityArgs<ExtArgs> = {}>(args?: Subset<T, FavSearchJob$cityArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5835,10 +5834,10 @@ export namespace Prisma {
     readonly id: FieldRef<"FavSearchJob", 'BigInt'>
     readonly cityId: FieldRef<"FavSearchJob", 'BigInt'>
     readonly workSector: FieldRef<"FavSearchJob", 'String'>
-    readonly experience: FieldRef<"FavSearchJob", 'String'>
-    readonly workday: FieldRef<"FavSearchJob", 'String'>
+    readonly experience: FieldRef<"FavSearchJob", 'Int'>
+    readonly workday: FieldRef<"FavSearchJob", 'Int'>
     readonly salary: FieldRef<"FavSearchJob", 'Float'>
-    readonly contract: FieldRef<"FavSearchJob", 'String'>
+    readonly journey: FieldRef<"FavSearchJob", 'String'>
     readonly userId: FieldRef<"FavSearchJob", 'BigInt'>
   }
     
@@ -6236,6 +6235,25 @@ export namespace Prisma {
   }
 
   /**
+   * FavSearchJob.city
+   */
+  export type FavSearchJob$cityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
+  }
+
+  /**
    * FavSearchJob without action
    */
   export type FavSearchJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6274,19 +6292,19 @@ export namespace Prisma {
 
   export type FavSearchCitySumAggregateOutputType = {
     id: bigint | null
-    countryId: bigint | null
+    countryId: number | null
     userId: bigint | null
   }
 
   export type FavSearchCityMinAggregateOutputType = {
     id: bigint | null
-    countryId: bigint | null
+    countryId: number | null
     userId: bigint | null
   }
 
   export type FavSearchCityMaxAggregateOutputType = {
     id: bigint | null
-    countryId: bigint | null
+    countryId: number | null
     userId: bigint | null
   }
 
@@ -6417,7 +6435,7 @@ export namespace Prisma {
 
   export type FavSearchCityGroupByOutputType = {
     id: bigint
-    countryId: bigint
+    countryId: number
     userId: bigint
     _count: FavSearchCityCountAggregateOutputType | null
     _avg: FavSearchCityAvgAggregateOutputType | null
@@ -6492,7 +6510,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
-      countryId: bigint
+      countryId: number
       userId: bigint
     }, ExtArgs["result"]["favSearchCity"]>
     composites: {}
@@ -6920,7 +6938,7 @@ export namespace Prisma {
    */
   interface FavSearchCityFieldRefs {
     readonly id: FieldRef<"FavSearchCity", 'BigInt'>
-    readonly countryId: FieldRef<"FavSearchCity", 'BigInt'>
+    readonly countryId: FieldRef<"FavSearchCity", 'Int'>
     readonly userId: FieldRef<"FavSearchCity", 'BigInt'>
   }
     
@@ -8439,19 +8457,19 @@ export namespace Prisma {
   export type FavCountrySumAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type FavCountryMinAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type FavCountryMaxAggregateOutputType = {
     id: bigint | null
     userId: bigint | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type FavCountryCountAggregateOutputType = {
@@ -8582,7 +8600,7 @@ export namespace Prisma {
   export type FavCountryGroupByOutputType = {
     id: bigint
     userId: bigint
-    countryId: bigint
+    countryId: number
     _count: FavCountryCountAggregateOutputType | null
     _avg: FavCountryAvgAggregateOutputType | null
     _sum: FavCountrySumAggregateOutputType | null
@@ -8657,7 +8675,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       userId: bigint
-      countryId: bigint
+      countryId: number
     }, ExtArgs["result"]["favCountry"]>
     composites: {}
   }
@@ -9085,7 +9103,7 @@ export namespace Prisma {
   interface FavCountryFieldRefs {
     readonly id: FieldRef<"FavCountry", 'BigInt'>
     readonly userId: FieldRef<"FavCountry", 'BigInt'>
-    readonly countryId: FieldRef<"FavCountry", 'BigInt'>
+    readonly countryId: FieldRef<"FavCountry", 'Int'>
   }
     
 
@@ -10601,21 +10619,21 @@ export namespace Prisma {
 
   export type ProcedureSumAggregateOutputType = {
     id: bigint | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type ProcedureMinAggregateOutputType = {
     id: bigint | null
     name: string | null
     lastUpdate: Date | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type ProcedureMaxAggregateOutputType = {
     id: bigint | null
     name: string | null
     lastUpdate: Date | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type ProcedureCountAggregateOutputType = {
@@ -10748,8 +10766,8 @@ export namespace Prisma {
   export type ProcedureGroupByOutputType = {
     id: bigint
     name: string
-    lastUpdate: Date
-    countryId: bigint
+    lastUpdate: Date | null
+    countryId: number
     _count: ProcedureCountAggregateOutputType | null
     _avg: ProcedureAvgAggregateOutputType | null
     _sum: ProcedureSumAggregateOutputType | null
@@ -10826,8 +10844,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       name: string
-      lastUpdate: Date
-      countryId: bigint
+      lastUpdate: Date | null
+      countryId: number
     }, ExtArgs["result"]["procedure"]>
     composites: {}
   }
@@ -11256,7 +11274,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Procedure", 'BigInt'>
     readonly name: FieldRef<"Procedure", 'String'>
     readonly lastUpdate: FieldRef<"Procedure", 'DateTime'>
-    readonly countryId: FieldRef<"Procedure", 'BigInt'>
+    readonly countryId: FieldRef<"Procedure", 'Int'>
   }
     
 
@@ -12782,21 +12800,19 @@ export namespace Prisma {
   }
 
   export type CountrySumAggregateOutputType = {
-    id: bigint | null
+    id: number | null
   }
 
   export type CountryMinAggregateOutputType = {
-    id: bigint | null
+    id: number | null
     name: string | null
-    code: string | null
     continent: string | null
     flagUrl: string | null
   }
 
   export type CountryMaxAggregateOutputType = {
-    id: bigint | null
+    id: number | null
     name: string | null
-    code: string | null
     continent: string | null
     flagUrl: string | null
   }
@@ -12804,7 +12820,6 @@ export namespace Prisma {
   export type CountryCountAggregateOutputType = {
     id: number
     name: number
-    code: number
     continent: number
     flagUrl: number
     _all: number
@@ -12822,7 +12837,6 @@ export namespace Prisma {
   export type CountryMinAggregateInputType = {
     id?: true
     name?: true
-    code?: true
     continent?: true
     flagUrl?: true
   }
@@ -12830,7 +12844,6 @@ export namespace Prisma {
   export type CountryMaxAggregateInputType = {
     id?: true
     name?: true
-    code?: true
     continent?: true
     flagUrl?: true
   }
@@ -12838,7 +12851,6 @@ export namespace Prisma {
   export type CountryCountAggregateInputType = {
     id?: true
     name?: true
-    code?: true
     continent?: true
     flagUrl?: true
     _all?: true
@@ -12931,9 +12943,8 @@ export namespace Prisma {
   }
 
   export type CountryGroupByOutputType = {
-    id: bigint
+    id: number
     name: string
-    code: string
     continent: string
     flagUrl: string | null
     _count: CountryCountAggregateOutputType | null
@@ -12960,7 +12971,6 @@ export namespace Prisma {
   export type CountrySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    code?: boolean
     continent?: boolean
     flagUrl?: boolean
     users?: boolean | Country$usersArgs<ExtArgs>
@@ -12976,7 +12986,6 @@ export namespace Prisma {
   export type CountrySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    code?: boolean
     continent?: boolean
     flagUrl?: boolean
   }, ExtArgs["result"]["country"]>
@@ -12984,7 +12993,6 @@ export namespace Prisma {
   export type CountrySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    code?: boolean
     continent?: boolean
     flagUrl?: boolean
   }, ExtArgs["result"]["country"]>
@@ -12992,12 +13000,11 @@ export namespace Prisma {
   export type CountrySelectScalar = {
     id?: boolean
     name?: boolean
-    code?: boolean
     continent?: boolean
     flagUrl?: boolean
   }
 
-  export type CountryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "code" | "continent" | "flagUrl", ExtArgs["result"]["country"]>
+  export type CountryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "continent" | "flagUrl", ExtArgs["result"]["country"]>
   export type CountryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     users?: boolean | Country$usersArgs<ExtArgs>
     cities?: boolean | Country$citiesArgs<ExtArgs>
@@ -13023,9 +13030,8 @@ export namespace Prisma {
       favCountries: Prisma.$FavCountryPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      id: bigint
+      id: number
       name: string
-      code: string
       continent: string
       flagUrl: string | null
     }, ExtArgs["result"]["country"]>
@@ -13458,9 +13464,8 @@ export namespace Prisma {
    * Fields of the Country model
    */
   interface CountryFieldRefs {
-    readonly id: FieldRef<"Country", 'BigInt'>
+    readonly id: FieldRef<"Country", 'Int'>
     readonly name: FieldRef<"Country", 'String'>
-    readonly code: FieldRef<"Country", 'String'>
     readonly continent: FieldRef<"Country", 'String'>
     readonly flagUrl: FieldRef<"Country", 'String'>
   }
@@ -14051,21 +14056,21 @@ export namespace Prisma {
 
   export type CitySumAggregateOutputType = {
     id: bigint | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type CityMinAggregateOutputType = {
     id: bigint | null
     name: string | null
     code: string | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type CityMaxAggregateOutputType = {
     id: bigint | null
     name: string | null
     code: string | null
-    countryId: bigint | null
+    countryId: number | null
   }
 
   export type CityCountAggregateOutputType = {
@@ -14199,7 +14204,7 @@ export namespace Prisma {
     id: bigint
     name: string
     code: string
-    countryId: bigint
+    countryId: number
     _count: CityCountAggregateOutputType | null
     _avg: CityAvgAggregateOutputType | null
     _sum: CitySumAggregateOutputType | null
@@ -14286,7 +14291,7 @@ export namespace Prisma {
       id: bigint
       name: string
       code: string
-      countryId: bigint
+      countryId: number
     }, ExtArgs["result"]["city"]>
     composites: {}
   }
@@ -14718,7 +14723,7 @@ export namespace Prisma {
     readonly id: FieldRef<"City", 'BigInt'>
     readonly name: FieldRef<"City", 'String'>
     readonly code: FieldRef<"City", 'String'>
-    readonly countryId: FieldRef<"City", 'BigInt'>
+    readonly countryId: FieldRef<"City", 'Int'>
   }
     
 
@@ -15242,6 +15247,7 @@ export namespace Prisma {
   }
 
   export type LivingCostAvgAggregateOutputType = {
+    id: number | null
     countryId: number | null
     foodCost: number | null
     transportCost: number | null
@@ -15249,27 +15255,31 @@ export namespace Prisma {
   }
 
   export type LivingCostSumAggregateOutputType = {
-    countryId: bigint | null
+    id: number | null
+    countryId: number | null
     foodCost: number | null
     transportCost: number | null
     monthlyEstimate: number | null
   }
 
   export type LivingCostMinAggregateOutputType = {
-    countryId: bigint | null
+    id: number | null
+    countryId: number | null
     foodCost: number | null
     transportCost: number | null
     monthlyEstimate: number | null
   }
 
   export type LivingCostMaxAggregateOutputType = {
-    countryId: bigint | null
+    id: number | null
+    countryId: number | null
     foodCost: number | null
     transportCost: number | null
     monthlyEstimate: number | null
   }
 
   export type LivingCostCountAggregateOutputType = {
+    id: number
     countryId: number
     foodCost: number
     transportCost: number
@@ -15279,6 +15289,7 @@ export namespace Prisma {
 
 
   export type LivingCostAvgAggregateInputType = {
+    id?: true
     countryId?: true
     foodCost?: true
     transportCost?: true
@@ -15286,6 +15297,7 @@ export namespace Prisma {
   }
 
   export type LivingCostSumAggregateInputType = {
+    id?: true
     countryId?: true
     foodCost?: true
     transportCost?: true
@@ -15293,6 +15305,7 @@ export namespace Prisma {
   }
 
   export type LivingCostMinAggregateInputType = {
+    id?: true
     countryId?: true
     foodCost?: true
     transportCost?: true
@@ -15300,6 +15313,7 @@ export namespace Prisma {
   }
 
   export type LivingCostMaxAggregateInputType = {
+    id?: true
     countryId?: true
     foodCost?: true
     transportCost?: true
@@ -15307,6 +15321,7 @@ export namespace Prisma {
   }
 
   export type LivingCostCountAggregateInputType = {
+    id?: true
     countryId?: true
     foodCost?: true
     transportCost?: true
@@ -15401,7 +15416,8 @@ export namespace Prisma {
   }
 
   export type LivingCostGroupByOutputType = {
-    countryId: bigint
+    id: number
+    countryId: number
     foodCost: number
     transportCost: number
     monthlyEstimate: number
@@ -15427,6 +15443,7 @@ export namespace Prisma {
 
 
   export type LivingCostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     countryId?: boolean
     foodCost?: boolean
     transportCost?: boolean
@@ -15435,6 +15452,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["livingCost"]>
 
   export type LivingCostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     countryId?: boolean
     foodCost?: boolean
     transportCost?: boolean
@@ -15443,6 +15461,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["livingCost"]>
 
   export type LivingCostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     countryId?: boolean
     foodCost?: boolean
     transportCost?: boolean
@@ -15451,13 +15470,14 @@ export namespace Prisma {
   }, ExtArgs["result"]["livingCost"]>
 
   export type LivingCostSelectScalar = {
+    id?: boolean
     countryId?: boolean
     foodCost?: boolean
     transportCost?: boolean
     monthlyEstimate?: boolean
   }
 
-  export type LivingCostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"countryId" | "foodCost" | "transportCost" | "monthlyEstimate", ExtArgs["result"]["livingCost"]>
+  export type LivingCostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "countryId" | "foodCost" | "transportCost" | "monthlyEstimate", ExtArgs["result"]["livingCost"]>
   export type LivingCostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     country?: boolean | CountryDefaultArgs<ExtArgs>
   }
@@ -15474,7 +15494,8 @@ export namespace Prisma {
       country: Prisma.$CountryPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      countryId: bigint
+      id: number
+      countryId: number
       foodCost: number
       transportCost: number
       monthlyEstimate: number
@@ -15561,8 +15582,8 @@ export namespace Prisma {
      * // Get first 10 LivingCosts
      * const livingCosts = await prisma.livingCost.findMany({ take: 10 })
      * 
-     * // Only select the `countryId`
-     * const livingCostWithCountryIdOnly = await prisma.livingCost.findMany({ select: { countryId: true } })
+     * // Only select the `id`
+     * const livingCostWithIdOnly = await prisma.livingCost.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends LivingCostFindManyArgs>(args?: SelectSubset<T, LivingCostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LivingCostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -15606,9 +15627,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many LivingCosts and only return the `countryId`
-     * const livingCostWithCountryIdOnly = await prisma.livingCost.createManyAndReturn({
-     *   select: { countryId: true },
+     * // Create many LivingCosts and only return the `id`
+     * const livingCostWithIdOnly = await prisma.livingCost.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -15697,9 +15718,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more LivingCosts and only return the `countryId`
-     * const livingCostWithCountryIdOnly = await prisma.livingCost.updateManyAndReturn({
-     *   select: { countryId: true },
+     * // Update zero or more LivingCosts and only return the `id`
+     * const livingCostWithIdOnly = await prisma.livingCost.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -15902,7 +15923,8 @@ export namespace Prisma {
    * Fields of the LivingCost model
    */
   interface LivingCostFieldRefs {
-    readonly countryId: FieldRef<"LivingCost", 'BigInt'>
+    readonly id: FieldRef<"LivingCost", 'Int'>
+    readonly countryId: FieldRef<"LivingCost", 'Int'>
     readonly foodCost: FieldRef<"LivingCost", 'Float'>
     readonly transportCost: FieldRef<"LivingCost", 'Float'>
     readonly monthlyEstimate: FieldRef<"LivingCost", 'Float'>
@@ -16343,7 +16365,7 @@ export namespace Prisma {
   export type JobOfferSumAggregateOutputType = {
     id: bigint | null
     companyId: bigint | null
-    countryId: bigint | null
+    countryId: number | null
     cityId: bigint | null
     salary: number | null
   }
@@ -16353,11 +16375,12 @@ export namespace Prisma {
     title: string | null
     description: string | null
     companyId: bigint | null
-    countryId: bigint | null
+    countryId: number | null
     cityId: bigint | null
     contract: string | null
     timestampStart: Date | null
     timestampEnd: Date | null
+    experience: string | null
     requirements: string | null
     workSector: string | null
     workday: string | null
@@ -16369,11 +16392,12 @@ export namespace Prisma {
     title: string | null
     description: string | null
     companyId: bigint | null
-    countryId: bigint | null
+    countryId: number | null
     cityId: bigint | null
     contract: string | null
     timestampStart: Date | null
     timestampEnd: Date | null
+    experience: string | null
     requirements: string | null
     workSector: string | null
     workday: string | null
@@ -16390,6 +16414,7 @@ export namespace Prisma {
     contract: number
     timestampStart: number
     timestampEnd: number
+    experience: number
     requirements: number
     workSector: number
     workday: number
@@ -16424,6 +16449,7 @@ export namespace Prisma {
     contract?: true
     timestampStart?: true
     timestampEnd?: true
+    experience?: true
     requirements?: true
     workSector?: true
     workday?: true
@@ -16440,6 +16466,7 @@ export namespace Prisma {
     contract?: true
     timestampStart?: true
     timestampEnd?: true
+    experience?: true
     requirements?: true
     workSector?: true
     workday?: true
@@ -16456,6 +16483,7 @@ export namespace Prisma {
     contract?: true
     timestampStart?: true
     timestampEnd?: true
+    experience?: true
     requirements?: true
     workSector?: true
     workday?: true
@@ -16554,15 +16582,16 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint
-    countryId: bigint
-    cityId: bigint
+    countryId: number
+    cityId: bigint | null
     contract: string
     timestampStart: Date
-    timestampEnd: Date
-    requirements: string
+    timestampEnd: Date | null
+    experience: string
+    requirements: string | null
     workSector: string
     workday: string
-    salary: number
+    salary: number | null
     _count: JobOfferCountAggregateOutputType | null
     _avg: JobOfferAvgAggregateOutputType | null
     _sum: JobOfferSumAggregateOutputType | null
@@ -16594,13 +16623,14 @@ export namespace Prisma {
     contract?: boolean
     timestampStart?: boolean
     timestampEnd?: boolean
+    experience?: boolean
     requirements?: boolean
     workSector?: boolean
     workday?: boolean
     salary?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | JobOffer$cityArgs<ExtArgs>
     favJobs?: boolean | JobOffer$favJobsArgs<ExtArgs>
     _count?: boolean | JobOfferCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["jobOffer"]>
@@ -16615,13 +16645,14 @@ export namespace Prisma {
     contract?: boolean
     timestampStart?: boolean
     timestampEnd?: boolean
+    experience?: boolean
     requirements?: boolean
     workSector?: boolean
     workday?: boolean
     salary?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | JobOffer$cityArgs<ExtArgs>
   }, ExtArgs["result"]["jobOffer"]>
 
   export type JobOfferSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16634,13 +16665,14 @@ export namespace Prisma {
     contract?: boolean
     timestampStart?: boolean
     timestampEnd?: boolean
+    experience?: boolean
     requirements?: boolean
     workSector?: boolean
     workday?: boolean
     salary?: boolean
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | JobOffer$cityArgs<ExtArgs>
   }, ExtArgs["result"]["jobOffer"]>
 
   export type JobOfferSelectScalar = {
@@ -16653,29 +16685,30 @@ export namespace Prisma {
     contract?: boolean
     timestampStart?: boolean
     timestampEnd?: boolean
+    experience?: boolean
     requirements?: boolean
     workSector?: boolean
     workday?: boolean
     salary?: boolean
   }
 
-  export type JobOfferOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "companyId" | "countryId" | "cityId" | "contract" | "timestampStart" | "timestampEnd" | "requirements" | "workSector" | "workday" | "salary", ExtArgs["result"]["jobOffer"]>
+  export type JobOfferOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "companyId" | "countryId" | "cityId" | "contract" | "timestampStart" | "timestampEnd" | "experience" | "requirements" | "workSector" | "workday" | "salary", ExtArgs["result"]["jobOffer"]>
   export type JobOfferInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | JobOffer$cityArgs<ExtArgs>
     favJobs?: boolean | JobOffer$favJobsArgs<ExtArgs>
     _count?: boolean | JobOfferCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type JobOfferIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | JobOffer$cityArgs<ExtArgs>
   }
   export type JobOfferIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company?: boolean | CompanyDefaultArgs<ExtArgs>
     country?: boolean | CountryDefaultArgs<ExtArgs>
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | JobOffer$cityArgs<ExtArgs>
   }
 
   export type $JobOfferPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16683,7 +16716,7 @@ export namespace Prisma {
     objects: {
       company: Prisma.$CompanyPayload<ExtArgs>
       country: Prisma.$CountryPayload<ExtArgs>
-      city: Prisma.$CityPayload<ExtArgs>
+      city: Prisma.$CityPayload<ExtArgs> | null
       favJobs: Prisma.$FavJobPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -16691,15 +16724,16 @@ export namespace Prisma {
       title: string
       description: string
       companyId: bigint
-      countryId: bigint
-      cityId: bigint
+      countryId: number
+      cityId: bigint | null
       contract: string
       timestampStart: Date
-      timestampEnd: Date
-      requirements: string
+      timestampEnd: Date | null
+      experience: string
+      requirements: string | null
       workSector: string
       workday: string
-      salary: number
+      salary: number | null
     }, ExtArgs["result"]["jobOffer"]>
     composites: {}
   }
@@ -17096,7 +17130,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     country<T extends CountryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CountryDefaultArgs<ExtArgs>>): Prisma__CountryClient<$Result.GetResult<Prisma.$CountryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    city<T extends JobOffer$cityArgs<ExtArgs> = {}>(args?: Subset<T, JobOffer$cityArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     favJobs<T extends JobOffer$favJobsArgs<ExtArgs> = {}>(args?: Subset<T, JobOffer$favJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -17131,11 +17165,12 @@ export namespace Prisma {
     readonly title: FieldRef<"JobOffer", 'String'>
     readonly description: FieldRef<"JobOffer", 'String'>
     readonly companyId: FieldRef<"JobOffer", 'BigInt'>
-    readonly countryId: FieldRef<"JobOffer", 'BigInt'>
+    readonly countryId: FieldRef<"JobOffer", 'Int'>
     readonly cityId: FieldRef<"JobOffer", 'BigInt'>
     readonly contract: FieldRef<"JobOffer", 'String'>
     readonly timestampStart: FieldRef<"JobOffer", 'DateTime'>
     readonly timestampEnd: FieldRef<"JobOffer", 'DateTime'>
+    readonly experience: FieldRef<"JobOffer", 'String'>
     readonly requirements: FieldRef<"JobOffer", 'String'>
     readonly workSector: FieldRef<"JobOffer", 'String'>
     readonly workday: FieldRef<"JobOffer", 'String'>
@@ -17536,6 +17571,25 @@ export namespace Prisma {
   }
 
   /**
+   * JobOffer.city
+   */
+  export type JobOffer$cityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
+  }
+
+  /**
    * JobOffer.favJobs
    */
   export type JobOffer$favJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17738,7 +17792,7 @@ export namespace Prisma {
   export type CompanyGroupByOutputType = {
     id: bigint
     name: string
-    cityId: bigint
+    cityId: bigint | null
     _count: CompanyCountAggregateOutputType | null
     _avg: CompanyAvgAggregateOutputType | null
     _sum: CompanySumAggregateOutputType | null
@@ -17764,7 +17818,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cityId?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Company$cityArgs<ExtArgs>
     jobOffers?: boolean | Company$jobOffersArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
@@ -17773,14 +17827,14 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     cityId?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Company$cityArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     cityId?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Company$cityArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
   export type CompanySelectScalar = {
@@ -17791,27 +17845,27 @@ export namespace Prisma {
 
   export type CompanyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "cityId", ExtArgs["result"]["company"]>
   export type CompanyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Company$cityArgs<ExtArgs>
     jobOffers?: boolean | Company$jobOffersArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CompanyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Company$cityArgs<ExtArgs>
   }
   export type CompanyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Company$cityArgs<ExtArgs>
   }
 
   export type $CompanyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Company"
     objects: {
-      city: Prisma.$CityPayload<ExtArgs>
+      city: Prisma.$CityPayload<ExtArgs> | null
       jobOffers: Prisma.$JobOfferPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       name: string
-      cityId: bigint
+      cityId: bigint | null
     }, ExtArgs["result"]["company"]>
     composites: {}
   }
@@ -18206,7 +18260,7 @@ export namespace Prisma {
    */
   export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    city<T extends Company$cityArgs<ExtArgs> = {}>(args?: Subset<T, Company$cityArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     jobOffers<T extends Company$jobOffersArgs<ExtArgs> = {}>(args?: Subset<T, Company$jobOffersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$JobOfferPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -18636,6 +18690,25 @@ export namespace Prisma {
   }
 
   /**
+   * Company.city
+   */
+  export type Company$cityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
+  }
+
+  /**
    * Company.jobOffers
    */
   export type Company$jobOffersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18711,6 +18784,7 @@ export namespace Prisma {
   export type DwellingMinAggregateOutputType = {
     id: bigint | null
     direction: string | null
+    description: string | null
     cityId: bigint | null
     zipCode: string | null
     type: string | null
@@ -18723,6 +18797,7 @@ export namespace Prisma {
   export type DwellingMaxAggregateOutputType = {
     id: bigint | null
     direction: string | null
+    description: string | null
     cityId: bigint | null
     zipCode: string | null
     type: string | null
@@ -18735,6 +18810,7 @@ export namespace Prisma {
   export type DwellingCountAggregateOutputType = {
     id: number
     direction: number
+    description: number
     cityId: number
     zipCode: number
     type: number
@@ -18767,6 +18843,7 @@ export namespace Prisma {
   export type DwellingMinAggregateInputType = {
     id?: true
     direction?: true
+    description?: true
     cityId?: true
     zipCode?: true
     type?: true
@@ -18779,6 +18856,7 @@ export namespace Prisma {
   export type DwellingMaxAggregateInputType = {
     id?: true
     direction?: true
+    description?: true
     cityId?: true
     zipCode?: true
     type?: true
@@ -18791,6 +18869,7 @@ export namespace Prisma {
   export type DwellingCountAggregateInputType = {
     id?: true
     direction?: true
+    description?: true
     cityId?: true
     zipCode?: true
     type?: true
@@ -18890,7 +18969,8 @@ export namespace Prisma {
   export type DwellingGroupByOutputType = {
     id: bigint
     direction: string
-    cityId: bigint
+    description: string
+    cityId: bigint | null
     zipCode: string
     type: string
     rooms: number
@@ -18921,6 +19001,7 @@ export namespace Prisma {
   export type DwellingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     direction?: boolean
+    description?: boolean
     cityId?: boolean
     zipCode?: boolean
     type?: boolean
@@ -18928,7 +19009,7 @@ export namespace Prisma {
     meters?: boolean
     ownerId?: boolean
     price?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Dwelling$cityArgs<ExtArgs>
     owner?: boolean | OwnerDefaultArgs<ExtArgs>
     favDwellings?: boolean | Dwelling$favDwellingsArgs<ExtArgs>
     _count?: boolean | DwellingCountOutputTypeDefaultArgs<ExtArgs>
@@ -18937,6 +19018,7 @@ export namespace Prisma {
   export type DwellingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     direction?: boolean
+    description?: boolean
     cityId?: boolean
     zipCode?: boolean
     type?: boolean
@@ -18944,13 +19026,14 @@ export namespace Prisma {
     meters?: boolean
     ownerId?: boolean
     price?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Dwelling$cityArgs<ExtArgs>
     owner?: boolean | OwnerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dwelling"]>
 
   export type DwellingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     direction?: boolean
+    description?: boolean
     cityId?: boolean
     zipCode?: boolean
     type?: boolean
@@ -18958,13 +19041,14 @@ export namespace Prisma {
     meters?: boolean
     ownerId?: boolean
     price?: boolean
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Dwelling$cityArgs<ExtArgs>
     owner?: boolean | OwnerDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["dwelling"]>
 
   export type DwellingSelectScalar = {
     id?: boolean
     direction?: boolean
+    description?: boolean
     cityId?: boolean
     zipCode?: boolean
     type?: boolean
@@ -18974,33 +19058,34 @@ export namespace Prisma {
     price?: boolean
   }
 
-  export type DwellingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "direction" | "cityId" | "zipCode" | "type" | "rooms" | "meters" | "ownerId" | "price", ExtArgs["result"]["dwelling"]>
+  export type DwellingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "direction" | "description" | "cityId" | "zipCode" | "type" | "rooms" | "meters" | "ownerId" | "price", ExtArgs["result"]["dwelling"]>
   export type DwellingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Dwelling$cityArgs<ExtArgs>
     owner?: boolean | OwnerDefaultArgs<ExtArgs>
     favDwellings?: boolean | Dwelling$favDwellingsArgs<ExtArgs>
     _count?: boolean | DwellingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DwellingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Dwelling$cityArgs<ExtArgs>
     owner?: boolean | OwnerDefaultArgs<ExtArgs>
   }
   export type DwellingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    city?: boolean | CityDefaultArgs<ExtArgs>
+    city?: boolean | Dwelling$cityArgs<ExtArgs>
     owner?: boolean | OwnerDefaultArgs<ExtArgs>
   }
 
   export type $DwellingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Dwelling"
     objects: {
-      city: Prisma.$CityPayload<ExtArgs>
+      city: Prisma.$CityPayload<ExtArgs> | null
       owner: Prisma.$OwnerPayload<ExtArgs>
       favDwellings: Prisma.$FavDwellingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: bigint
       direction: string
-      cityId: bigint
+      description: string
+      cityId: bigint | null
       zipCode: string
       type: string
       rooms: number
@@ -19401,7 +19486,7 @@ export namespace Prisma {
    */
   export interface Prisma__DwellingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    city<T extends CityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CityDefaultArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    city<T extends Dwelling$cityArgs<ExtArgs> = {}>(args?: Subset<T, Dwelling$cityArgs<ExtArgs>>): Prisma__CityClient<$Result.GetResult<Prisma.$CityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     owner<T extends OwnerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OwnerDefaultArgs<ExtArgs>>): Prisma__OwnerClient<$Result.GetResult<Prisma.$OwnerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     favDwellings<T extends Dwelling$favDwellingsArgs<ExtArgs> = {}>(args?: Subset<T, Dwelling$favDwellingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavDwellingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -19435,6 +19520,7 @@ export namespace Prisma {
   interface DwellingFieldRefs {
     readonly id: FieldRef<"Dwelling", 'BigInt'>
     readonly direction: FieldRef<"Dwelling", 'String'>
+    readonly description: FieldRef<"Dwelling", 'String'>
     readonly cityId: FieldRef<"Dwelling", 'BigInt'>
     readonly zipCode: FieldRef<"Dwelling", 'String'>
     readonly type: FieldRef<"Dwelling", 'String'>
@@ -19838,6 +19924,25 @@ export namespace Prisma {
   }
 
   /**
+   * Dwelling.city
+   */
+  export type Dwelling$cityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the City
+     */
+    select?: CitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the City
+     */
+    omit?: CityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CityInclude<ExtArgs> | null
+    where?: CityWhereInput
+  }
+
+  /**
    * Dwelling.favDwellings
    */
   export type Dwelling$favDwellingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20043,7 +20148,7 @@ export namespace Prisma {
     id: bigint
     name: string
     email: string
-    telephone: string
+    telephone: string | null
     _count: OwnerCountAggregateOutputType | null
     _avg: OwnerAvgAggregateOutputType | null
     _sum: OwnerSumAggregateOutputType | null
@@ -20112,7 +20217,7 @@ export namespace Prisma {
       id: bigint
       name: string
       email: string
-      telephone: string
+      telephone: string | null
     }, ExtArgs["result"]["owner"]>
     composites: {}
   }
@@ -21004,7 +21109,6 @@ export namespace Prisma {
 
   export const FavSearchDwellingScalarFieldEnum: {
     id: 'id',
-    direction: 'direction',
     cityId: 'cityId',
     type: 'type',
     rooms: 'rooms',
@@ -21024,7 +21128,7 @@ export namespace Prisma {
     experience: 'experience',
     workday: 'workday',
     salary: 'salary',
-    contract: 'contract',
+    journey: 'journey',
     userId: 'userId'
   };
 
@@ -21089,7 +21193,6 @@ export namespace Prisma {
   export const CountryScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    code: 'code',
     continent: 'continent',
     flagUrl: 'flagUrl'
   };
@@ -21108,6 +21211,7 @@ export namespace Prisma {
 
 
   export const LivingCostScalarFieldEnum: {
+    id: 'id',
     countryId: 'countryId',
     foodCost: 'foodCost',
     transportCost: 'transportCost',
@@ -21127,6 +21231,7 @@ export namespace Prisma {
     contract: 'contract',
     timestampStart: 'timestampStart',
     timestampEnd: 'timestampEnd',
+    experience: 'experience',
     requirements: 'requirements',
     workSector: 'workSector',
     workday: 'workday',
@@ -21148,6 +21253,7 @@ export namespace Prisma {
   export const DwellingScalarFieldEnum: {
     id: 'id',
     direction: 'direction',
+    description: 'description',
     cityId: 'cityId',
     zipCode: 'zipCode',
     type: 'type',
@@ -21242,13 +21348,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -21259,6 +21358,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -21292,7 +21398,7 @@ export namespace Prisma {
     birthdate?: DateTimeFilter<"User"> | Date | string
     name?: StringFilter<"User"> | string
     surname?: StringFilter<"User"> | string
-    countryId?: BigIntFilter<"User"> | bigint | number
+    countryId?: IntFilter<"User"> | number
     eu?: BoolFilter<"User"> | boolean
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     favSearchDwellings?: FavSearchDwellingListRelationFilter
@@ -21337,7 +21443,7 @@ export namespace Prisma {
     birthdate?: DateTimeFilter<"User"> | Date | string
     name?: StringFilter<"User"> | string
     surname?: StringFilter<"User"> | string
-    countryId?: BigIntFilter<"User"> | bigint | number
+    countryId?: IntFilter<"User"> | number
     eu?: BoolFilter<"User"> | boolean
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     favSearchDwellings?: FavSearchDwellingListRelationFilter
@@ -21380,7 +21486,7 @@ export namespace Prisma {
     birthdate?: DateTimeWithAggregatesFilter<"User"> | Date | string
     name?: StringWithAggregatesFilter<"User"> | string
     surname?: StringWithAggregatesFilter<"User"> | string
-    countryId?: BigIntWithAggregatesFilter<"User"> | bigint | number
+    countryId?: IntWithAggregatesFilter<"User"> | number
     eu?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
@@ -21389,26 +21495,24 @@ export namespace Prisma {
     OR?: FavSearchDwellingWhereInput[]
     NOT?: FavSearchDwellingWhereInput | FavSearchDwellingWhereInput[]
     id?: BigIntFilter<"FavSearchDwelling"> | bigint | number
-    direction?: StringFilter<"FavSearchDwelling"> | string
-    cityId?: BigIntFilter<"FavSearchDwelling"> | bigint | number
-    type?: StringFilter<"FavSearchDwelling"> | string
-    rooms?: IntFilter<"FavSearchDwelling"> | number
-    squareMeters?: FloatFilter<"FavSearchDwelling"> | number
-    price?: FloatFilter<"FavSearchDwelling"> | number
-    bathrooms?: IntFilter<"FavSearchDwelling"> | number
+    cityId?: IntNullableFilter<"FavSearchDwelling"> | number | null
+    type?: StringNullableFilter<"FavSearchDwelling"> | string | null
+    rooms?: IntNullableFilter<"FavSearchDwelling"> | number | null
+    squareMeters?: FloatNullableFilter<"FavSearchDwelling"> | number | null
+    price?: FloatNullableFilter<"FavSearchDwelling"> | number | null
+    bathrooms?: IntNullableFilter<"FavSearchDwelling"> | number | null
     userId?: BigIntFilter<"FavSearchDwelling"> | bigint | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type FavSearchDwellingOrderByWithRelationInput = {
     id?: SortOrder
-    direction?: SortOrder
-    cityId?: SortOrder
-    type?: SortOrder
-    rooms?: SortOrder
-    squareMeters?: SortOrder
-    price?: SortOrder
-    bathrooms?: SortOrder
+    cityId?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    rooms?: SortOrderInput | SortOrder
+    squareMeters?: SortOrderInput | SortOrder
+    price?: SortOrderInput | SortOrder
+    bathrooms?: SortOrderInput | SortOrder
     userId?: SortOrder
     user?: UserOrderByWithRelationInput
   }
@@ -21418,26 +21522,24 @@ export namespace Prisma {
     AND?: FavSearchDwellingWhereInput | FavSearchDwellingWhereInput[]
     OR?: FavSearchDwellingWhereInput[]
     NOT?: FavSearchDwellingWhereInput | FavSearchDwellingWhereInput[]
-    direction?: StringFilter<"FavSearchDwelling"> | string
-    cityId?: BigIntFilter<"FavSearchDwelling"> | bigint | number
-    type?: StringFilter<"FavSearchDwelling"> | string
-    rooms?: IntFilter<"FavSearchDwelling"> | number
-    squareMeters?: FloatFilter<"FavSearchDwelling"> | number
-    price?: FloatFilter<"FavSearchDwelling"> | number
-    bathrooms?: IntFilter<"FavSearchDwelling"> | number
+    cityId?: IntNullableFilter<"FavSearchDwelling"> | number | null
+    type?: StringNullableFilter<"FavSearchDwelling"> | string | null
+    rooms?: IntNullableFilter<"FavSearchDwelling"> | number | null
+    squareMeters?: FloatNullableFilter<"FavSearchDwelling"> | number | null
+    price?: FloatNullableFilter<"FavSearchDwelling"> | number | null
+    bathrooms?: IntNullableFilter<"FavSearchDwelling"> | number | null
     userId?: BigIntFilter<"FavSearchDwelling"> | bigint | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type FavSearchDwellingOrderByWithAggregationInput = {
     id?: SortOrder
-    direction?: SortOrder
-    cityId?: SortOrder
-    type?: SortOrder
-    rooms?: SortOrder
-    squareMeters?: SortOrder
-    price?: SortOrder
-    bathrooms?: SortOrder
+    cityId?: SortOrderInput | SortOrder
+    type?: SortOrderInput | SortOrder
+    rooms?: SortOrderInput | SortOrder
+    squareMeters?: SortOrderInput | SortOrder
+    price?: SortOrderInput | SortOrder
+    bathrooms?: SortOrderInput | SortOrder
     userId?: SortOrder
     _count?: FavSearchDwellingCountOrderByAggregateInput
     _avg?: FavSearchDwellingAvgOrderByAggregateInput
@@ -21451,13 +21553,12 @@ export namespace Prisma {
     OR?: FavSearchDwellingScalarWhereWithAggregatesInput[]
     NOT?: FavSearchDwellingScalarWhereWithAggregatesInput | FavSearchDwellingScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"FavSearchDwelling"> | bigint | number
-    direction?: StringWithAggregatesFilter<"FavSearchDwelling"> | string
-    cityId?: BigIntWithAggregatesFilter<"FavSearchDwelling"> | bigint | number
-    type?: StringWithAggregatesFilter<"FavSearchDwelling"> | string
-    rooms?: IntWithAggregatesFilter<"FavSearchDwelling"> | number
-    squareMeters?: FloatWithAggregatesFilter<"FavSearchDwelling"> | number
-    price?: FloatWithAggregatesFilter<"FavSearchDwelling"> | number
-    bathrooms?: IntWithAggregatesFilter<"FavSearchDwelling"> | number
+    cityId?: IntNullableWithAggregatesFilter<"FavSearchDwelling"> | number | null
+    type?: StringNullableWithAggregatesFilter<"FavSearchDwelling"> | string | null
+    rooms?: IntNullableWithAggregatesFilter<"FavSearchDwelling"> | number | null
+    squareMeters?: FloatNullableWithAggregatesFilter<"FavSearchDwelling"> | number | null
+    price?: FloatNullableWithAggregatesFilter<"FavSearchDwelling"> | number | null
+    bathrooms?: IntNullableWithAggregatesFilter<"FavSearchDwelling"> | number | null
     userId?: BigIntWithAggregatesFilter<"FavSearchDwelling"> | bigint | number
   }
 
@@ -21466,25 +21567,25 @@ export namespace Prisma {
     OR?: FavSearchJobWhereInput[]
     NOT?: FavSearchJobWhereInput | FavSearchJobWhereInput[]
     id?: BigIntFilter<"FavSearchJob"> | bigint | number
-    cityId?: BigIntFilter<"FavSearchJob"> | bigint | number
-    workSector?: StringFilter<"FavSearchJob"> | string
-    experience?: StringFilter<"FavSearchJob"> | string
-    workday?: StringFilter<"FavSearchJob"> | string
-    salary?: FloatFilter<"FavSearchJob"> | number
-    contract?: StringFilter<"FavSearchJob"> | string
+    cityId?: BigIntNullableFilter<"FavSearchJob"> | bigint | number | null
+    workSector?: StringNullableFilter<"FavSearchJob"> | string | null
+    experience?: IntNullableFilter<"FavSearchJob"> | number | null
+    workday?: IntNullableFilter<"FavSearchJob"> | number | null
+    salary?: FloatNullableFilter<"FavSearchJob"> | number | null
+    journey?: StringNullableFilter<"FavSearchJob"> | string | null
     userId?: BigIntFilter<"FavSearchJob"> | bigint | number
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type FavSearchJobOrderByWithRelationInput = {
     id?: SortOrder
-    cityId?: SortOrder
-    workSector?: SortOrder
-    experience?: SortOrder
-    workday?: SortOrder
-    salary?: SortOrder
-    contract?: SortOrder
+    cityId?: SortOrderInput | SortOrder
+    workSector?: SortOrderInput | SortOrder
+    experience?: SortOrderInput | SortOrder
+    workday?: SortOrderInput | SortOrder
+    salary?: SortOrderInput | SortOrder
+    journey?: SortOrderInput | SortOrder
     userId?: SortOrder
     city?: CityOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
@@ -21495,25 +21596,25 @@ export namespace Prisma {
     AND?: FavSearchJobWhereInput | FavSearchJobWhereInput[]
     OR?: FavSearchJobWhereInput[]
     NOT?: FavSearchJobWhereInput | FavSearchJobWhereInput[]
-    cityId?: BigIntFilter<"FavSearchJob"> | bigint | number
-    workSector?: StringFilter<"FavSearchJob"> | string
-    experience?: StringFilter<"FavSearchJob"> | string
-    workday?: StringFilter<"FavSearchJob"> | string
-    salary?: FloatFilter<"FavSearchJob"> | number
-    contract?: StringFilter<"FavSearchJob"> | string
+    cityId?: BigIntNullableFilter<"FavSearchJob"> | bigint | number | null
+    workSector?: StringNullableFilter<"FavSearchJob"> | string | null
+    experience?: IntNullableFilter<"FavSearchJob"> | number | null
+    workday?: IntNullableFilter<"FavSearchJob"> | number | null
+    salary?: FloatNullableFilter<"FavSearchJob"> | number | null
+    journey?: StringNullableFilter<"FavSearchJob"> | string | null
     userId?: BigIntFilter<"FavSearchJob"> | bigint | number
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type FavSearchJobOrderByWithAggregationInput = {
     id?: SortOrder
-    cityId?: SortOrder
-    workSector?: SortOrder
-    experience?: SortOrder
-    workday?: SortOrder
-    salary?: SortOrder
-    contract?: SortOrder
+    cityId?: SortOrderInput | SortOrder
+    workSector?: SortOrderInput | SortOrder
+    experience?: SortOrderInput | SortOrder
+    workday?: SortOrderInput | SortOrder
+    salary?: SortOrderInput | SortOrder
+    journey?: SortOrderInput | SortOrder
     userId?: SortOrder
     _count?: FavSearchJobCountOrderByAggregateInput
     _avg?: FavSearchJobAvgOrderByAggregateInput
@@ -21527,12 +21628,12 @@ export namespace Prisma {
     OR?: FavSearchJobScalarWhereWithAggregatesInput[]
     NOT?: FavSearchJobScalarWhereWithAggregatesInput | FavSearchJobScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"FavSearchJob"> | bigint | number
-    cityId?: BigIntWithAggregatesFilter<"FavSearchJob"> | bigint | number
-    workSector?: StringWithAggregatesFilter<"FavSearchJob"> | string
-    experience?: StringWithAggregatesFilter<"FavSearchJob"> | string
-    workday?: StringWithAggregatesFilter<"FavSearchJob"> | string
-    salary?: FloatWithAggregatesFilter<"FavSearchJob"> | number
-    contract?: StringWithAggregatesFilter<"FavSearchJob"> | string
+    cityId?: BigIntNullableWithAggregatesFilter<"FavSearchJob"> | bigint | number | null
+    workSector?: StringNullableWithAggregatesFilter<"FavSearchJob"> | string | null
+    experience?: IntNullableWithAggregatesFilter<"FavSearchJob"> | number | null
+    workday?: IntNullableWithAggregatesFilter<"FavSearchJob"> | number | null
+    salary?: FloatNullableWithAggregatesFilter<"FavSearchJob"> | number | null
+    journey?: StringNullableWithAggregatesFilter<"FavSearchJob"> | string | null
     userId?: BigIntWithAggregatesFilter<"FavSearchJob"> | bigint | number
   }
 
@@ -21541,7 +21642,7 @@ export namespace Prisma {
     OR?: FavSearchCityWhereInput[]
     NOT?: FavSearchCityWhereInput | FavSearchCityWhereInput[]
     id?: BigIntFilter<"FavSearchCity"> | bigint | number
-    countryId?: BigIntFilter<"FavSearchCity"> | bigint | number
+    countryId?: IntFilter<"FavSearchCity"> | number
     userId?: BigIntFilter<"FavSearchCity"> | bigint | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -21560,7 +21661,7 @@ export namespace Prisma {
     AND?: FavSearchCityWhereInput | FavSearchCityWhereInput[]
     OR?: FavSearchCityWhereInput[]
     NOT?: FavSearchCityWhereInput | FavSearchCityWhereInput[]
-    countryId?: BigIntFilter<"FavSearchCity"> | bigint | number
+    countryId?: IntFilter<"FavSearchCity"> | number
     userId?: BigIntFilter<"FavSearchCity"> | bigint | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -21582,7 +21683,7 @@ export namespace Prisma {
     OR?: FavSearchCityScalarWhereWithAggregatesInput[]
     NOT?: FavSearchCityScalarWhereWithAggregatesInput | FavSearchCityScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"FavSearchCity"> | bigint | number
-    countryId?: BigIntWithAggregatesFilter<"FavSearchCity"> | bigint | number
+    countryId?: IntWithAggregatesFilter<"FavSearchCity"> | number
     userId?: BigIntWithAggregatesFilter<"FavSearchCity"> | bigint | number
   }
 
@@ -21642,7 +21743,7 @@ export namespace Prisma {
     NOT?: FavCountryWhereInput | FavCountryWhereInput[]
     id?: BigIntFilter<"FavCountry"> | bigint | number
     userId?: BigIntFilter<"FavCountry"> | bigint | number
-    countryId?: BigIntFilter<"FavCountry"> | bigint | number
+    countryId?: IntFilter<"FavCountry"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
   }
@@ -21661,7 +21762,7 @@ export namespace Prisma {
     OR?: FavCountryWhereInput[]
     NOT?: FavCountryWhereInput | FavCountryWhereInput[]
     userId?: BigIntFilter<"FavCountry"> | bigint | number
-    countryId?: BigIntFilter<"FavCountry"> | bigint | number
+    countryId?: IntFilter<"FavCountry"> | number
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
   }, "id">
@@ -21683,7 +21784,7 @@ export namespace Prisma {
     NOT?: FavCountryScalarWhereWithAggregatesInput | FavCountryScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"FavCountry"> | bigint | number
     userId?: BigIntWithAggregatesFilter<"FavCountry"> | bigint | number
-    countryId?: BigIntWithAggregatesFilter<"FavCountry"> | bigint | number
+    countryId?: IntWithAggregatesFilter<"FavCountry"> | number
   }
 
   export type FavDwellingWhereInput = {
@@ -21742,8 +21843,8 @@ export namespace Prisma {
     NOT?: ProcedureWhereInput | ProcedureWhereInput[]
     id?: BigIntFilter<"Procedure"> | bigint | number
     name?: StringFilter<"Procedure"> | string
-    lastUpdate?: DateTimeFilter<"Procedure"> | Date | string
-    countryId?: BigIntFilter<"Procedure"> | bigint | number
+    lastUpdate?: DateTimeNullableFilter<"Procedure"> | Date | string | null
+    countryId?: IntFilter<"Procedure"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     documents?: DocumentListRelationFilter
   }
@@ -21751,7 +21852,7 @@ export namespace Prisma {
   export type ProcedureOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    lastUpdate?: SortOrder
+    lastUpdate?: SortOrderInput | SortOrder
     countryId?: SortOrder
     country?: CountryOrderByWithRelationInput
     documents?: DocumentOrderByRelationAggregateInput
@@ -21763,8 +21864,8 @@ export namespace Prisma {
     OR?: ProcedureWhereInput[]
     NOT?: ProcedureWhereInput | ProcedureWhereInput[]
     name?: StringFilter<"Procedure"> | string
-    lastUpdate?: DateTimeFilter<"Procedure"> | Date | string
-    countryId?: BigIntFilter<"Procedure"> | bigint | number
+    lastUpdate?: DateTimeNullableFilter<"Procedure"> | Date | string | null
+    countryId?: IntFilter<"Procedure"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     documents?: DocumentListRelationFilter
   }, "id">
@@ -21772,7 +21873,7 @@ export namespace Prisma {
   export type ProcedureOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    lastUpdate?: SortOrder
+    lastUpdate?: SortOrderInput | SortOrder
     countryId?: SortOrder
     _count?: ProcedureCountOrderByAggregateInput
     _avg?: ProcedureAvgOrderByAggregateInput
@@ -21787,8 +21888,8 @@ export namespace Prisma {
     NOT?: ProcedureScalarWhereWithAggregatesInput | ProcedureScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Procedure"> | bigint | number
     name?: StringWithAggregatesFilter<"Procedure"> | string
-    lastUpdate?: DateTimeWithAggregatesFilter<"Procedure"> | Date | string
-    countryId?: BigIntWithAggregatesFilter<"Procedure"> | bigint | number
+    lastUpdate?: DateTimeNullableWithAggregatesFilter<"Procedure"> | Date | string | null
+    countryId?: IntWithAggregatesFilter<"Procedure"> | number
   }
 
   export type DocumentWhereInput = {
@@ -21842,9 +21943,8 @@ export namespace Prisma {
     AND?: CountryWhereInput | CountryWhereInput[]
     OR?: CountryWhereInput[]
     NOT?: CountryWhereInput | CountryWhereInput[]
-    id?: BigIntFilter<"Country"> | bigint | number
+    id?: IntFilter<"Country"> | number
     name?: StringFilter<"Country"> | string
-    code?: StringFilter<"Country"> | string
     continent?: StringFilter<"Country"> | string
     flagUrl?: StringNullableFilter<"Country"> | string | null
     users?: UserListRelationFilter
@@ -21859,7 +21959,6 @@ export namespace Prisma {
   export type CountryOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    code?: SortOrder
     continent?: SortOrder
     flagUrl?: SortOrderInput | SortOrder
     users?: UserOrderByRelationAggregateInput
@@ -21872,9 +21971,8 @@ export namespace Prisma {
   }
 
   export type CountryWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
+    id?: number
     name?: string
-    code?: string
     AND?: CountryWhereInput | CountryWhereInput[]
     OR?: CountryWhereInput[]
     NOT?: CountryWhereInput | CountryWhereInput[]
@@ -21887,12 +21985,11 @@ export namespace Prisma {
     procedures?: ProcedureListRelationFilter
     favSearchCities?: FavSearchCityListRelationFilter
     favCountries?: FavCountryListRelationFilter
-  }, "id" | "name" | "code">
+  }, "id" | "name">
 
   export type CountryOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    code?: SortOrder
     continent?: SortOrder
     flagUrl?: SortOrderInput | SortOrder
     _count?: CountryCountOrderByAggregateInput
@@ -21906,9 +22003,8 @@ export namespace Prisma {
     AND?: CountryScalarWhereWithAggregatesInput | CountryScalarWhereWithAggregatesInput[]
     OR?: CountryScalarWhereWithAggregatesInput[]
     NOT?: CountryScalarWhereWithAggregatesInput | CountryScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"Country"> | bigint | number
+    id?: IntWithAggregatesFilter<"Country"> | number
     name?: StringWithAggregatesFilter<"Country"> | string
-    code?: StringWithAggregatesFilter<"Country"> | string
     continent?: StringWithAggregatesFilter<"Country"> | string
     flagUrl?: StringNullableWithAggregatesFilter<"Country"> | string | null
   }
@@ -21920,7 +22016,7 @@ export namespace Prisma {
     id?: BigIntFilter<"City"> | bigint | number
     name?: StringFilter<"City"> | string
     code?: StringFilter<"City"> | string
-    countryId?: BigIntFilter<"City"> | bigint | number
+    countryId?: IntFilter<"City"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     companies?: CompanyListRelationFilter
     dwellings?: DwellingListRelationFilter
@@ -21947,7 +22043,7 @@ export namespace Prisma {
     NOT?: CityWhereInput | CityWhereInput[]
     name?: StringFilter<"City"> | string
     code?: StringFilter<"City"> | string
-    countryId?: BigIntFilter<"City"> | bigint | number
+    countryId?: IntFilter<"City"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
     companies?: CompanyListRelationFilter
     dwellings?: DwellingListRelationFilter
@@ -21974,14 +22070,15 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"City"> | bigint | number
     name?: StringWithAggregatesFilter<"City"> | string
     code?: StringWithAggregatesFilter<"City"> | string
-    countryId?: BigIntWithAggregatesFilter<"City"> | bigint | number
+    countryId?: IntWithAggregatesFilter<"City"> | number
   }
 
   export type LivingCostWhereInput = {
     AND?: LivingCostWhereInput | LivingCostWhereInput[]
     OR?: LivingCostWhereInput[]
     NOT?: LivingCostWhereInput | LivingCostWhereInput[]
-    countryId?: BigIntFilter<"LivingCost"> | bigint | number
+    id?: IntFilter<"LivingCost"> | number
+    countryId?: IntFilter<"LivingCost"> | number
     foodCost?: FloatFilter<"LivingCost"> | number
     transportCost?: FloatFilter<"LivingCost"> | number
     monthlyEstimate?: FloatFilter<"LivingCost"> | number
@@ -21989,6 +22086,7 @@ export namespace Prisma {
   }
 
   export type LivingCostOrderByWithRelationInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
@@ -21997,7 +22095,8 @@ export namespace Prisma {
   }
 
   export type LivingCostWhereUniqueInput = Prisma.AtLeast<{
-    countryId?: bigint | number
+    id?: number
+    countryId?: number
     AND?: LivingCostWhereInput | LivingCostWhereInput[]
     OR?: LivingCostWhereInput[]
     NOT?: LivingCostWhereInput | LivingCostWhereInput[]
@@ -22005,9 +22104,10 @@ export namespace Prisma {
     transportCost?: FloatFilter<"LivingCost"> | number
     monthlyEstimate?: FloatFilter<"LivingCost"> | number
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
-  }, "countryId">
+  }, "id" | "countryId">
 
   export type LivingCostOrderByWithAggregationInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
@@ -22023,7 +22123,8 @@ export namespace Prisma {
     AND?: LivingCostScalarWhereWithAggregatesInput | LivingCostScalarWhereWithAggregatesInput[]
     OR?: LivingCostScalarWhereWithAggregatesInput[]
     NOT?: LivingCostScalarWhereWithAggregatesInput | LivingCostScalarWhereWithAggregatesInput[]
-    countryId?: BigIntWithAggregatesFilter<"LivingCost"> | bigint | number
+    id?: IntWithAggregatesFilter<"LivingCost"> | number
+    countryId?: IntWithAggregatesFilter<"LivingCost"> | number
     foodCost?: FloatWithAggregatesFilter<"LivingCost"> | number
     transportCost?: FloatWithAggregatesFilter<"LivingCost"> | number
     monthlyEstimate?: FloatWithAggregatesFilter<"LivingCost"> | number
@@ -22037,18 +22138,19 @@ export namespace Prisma {
     title?: StringFilter<"JobOffer"> | string
     description?: StringFilter<"JobOffer"> | string
     companyId?: BigIntFilter<"JobOffer"> | bigint | number
-    countryId?: BigIntFilter<"JobOffer"> | bigint | number
-    cityId?: BigIntFilter<"JobOffer"> | bigint | number
+    countryId?: IntFilter<"JobOffer"> | number
+    cityId?: BigIntNullableFilter<"JobOffer"> | bigint | number | null
     contract?: StringFilter<"JobOffer"> | string
     timestampStart?: DateTimeFilter<"JobOffer"> | Date | string
-    timestampEnd?: DateTimeFilter<"JobOffer"> | Date | string
-    requirements?: StringFilter<"JobOffer"> | string
+    timestampEnd?: DateTimeNullableFilter<"JobOffer"> | Date | string | null
+    experience?: StringFilter<"JobOffer"> | string
+    requirements?: StringNullableFilter<"JobOffer"> | string | null
     workSector?: StringFilter<"JobOffer"> | string
     workday?: StringFilter<"JobOffer"> | string
-    salary?: FloatFilter<"JobOffer"> | number
+    salary?: FloatNullableFilter<"JobOffer"> | number | null
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     favJobs?: FavJobListRelationFilter
   }
 
@@ -22058,14 +22160,15 @@ export namespace Prisma {
     description?: SortOrder
     companyId?: SortOrder
     countryId?: SortOrder
-    cityId?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     contract?: SortOrder
     timestampStart?: SortOrder
-    timestampEnd?: SortOrder
-    requirements?: SortOrder
+    timestampEnd?: SortOrderInput | SortOrder
+    experience?: SortOrder
+    requirements?: SortOrderInput | SortOrder
     workSector?: SortOrder
     workday?: SortOrder
-    salary?: SortOrder
+    salary?: SortOrderInput | SortOrder
     company?: CompanyOrderByWithRelationInput
     country?: CountryOrderByWithRelationInput
     city?: CityOrderByWithRelationInput
@@ -22080,18 +22183,19 @@ export namespace Prisma {
     title?: StringFilter<"JobOffer"> | string
     description?: StringFilter<"JobOffer"> | string
     companyId?: BigIntFilter<"JobOffer"> | bigint | number
-    countryId?: BigIntFilter<"JobOffer"> | bigint | number
-    cityId?: BigIntFilter<"JobOffer"> | bigint | number
+    countryId?: IntFilter<"JobOffer"> | number
+    cityId?: BigIntNullableFilter<"JobOffer"> | bigint | number | null
     contract?: StringFilter<"JobOffer"> | string
     timestampStart?: DateTimeFilter<"JobOffer"> | Date | string
-    timestampEnd?: DateTimeFilter<"JobOffer"> | Date | string
-    requirements?: StringFilter<"JobOffer"> | string
+    timestampEnd?: DateTimeNullableFilter<"JobOffer"> | Date | string | null
+    experience?: StringFilter<"JobOffer"> | string
+    requirements?: StringNullableFilter<"JobOffer"> | string | null
     workSector?: StringFilter<"JobOffer"> | string
     workday?: StringFilter<"JobOffer"> | string
-    salary?: FloatFilter<"JobOffer"> | number
+    salary?: FloatNullableFilter<"JobOffer"> | number | null
     company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
     country?: XOR<CountryScalarRelationFilter, CountryWhereInput>
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     favJobs?: FavJobListRelationFilter
   }, "id">
 
@@ -22101,14 +22205,15 @@ export namespace Prisma {
     description?: SortOrder
     companyId?: SortOrder
     countryId?: SortOrder
-    cityId?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     contract?: SortOrder
     timestampStart?: SortOrder
-    timestampEnd?: SortOrder
-    requirements?: SortOrder
+    timestampEnd?: SortOrderInput | SortOrder
+    experience?: SortOrder
+    requirements?: SortOrderInput | SortOrder
     workSector?: SortOrder
     workday?: SortOrder
-    salary?: SortOrder
+    salary?: SortOrderInput | SortOrder
     _count?: JobOfferCountOrderByAggregateInput
     _avg?: JobOfferAvgOrderByAggregateInput
     _max?: JobOfferMaxOrderByAggregateInput
@@ -22124,15 +22229,16 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"JobOffer"> | string
     description?: StringWithAggregatesFilter<"JobOffer"> | string
     companyId?: BigIntWithAggregatesFilter<"JobOffer"> | bigint | number
-    countryId?: BigIntWithAggregatesFilter<"JobOffer"> | bigint | number
-    cityId?: BigIntWithAggregatesFilter<"JobOffer"> | bigint | number
+    countryId?: IntWithAggregatesFilter<"JobOffer"> | number
+    cityId?: BigIntNullableWithAggregatesFilter<"JobOffer"> | bigint | number | null
     contract?: StringWithAggregatesFilter<"JobOffer"> | string
     timestampStart?: DateTimeWithAggregatesFilter<"JobOffer"> | Date | string
-    timestampEnd?: DateTimeWithAggregatesFilter<"JobOffer"> | Date | string
-    requirements?: StringWithAggregatesFilter<"JobOffer"> | string
+    timestampEnd?: DateTimeNullableWithAggregatesFilter<"JobOffer"> | Date | string | null
+    experience?: StringWithAggregatesFilter<"JobOffer"> | string
+    requirements?: StringNullableWithAggregatesFilter<"JobOffer"> | string | null
     workSector?: StringWithAggregatesFilter<"JobOffer"> | string
     workday?: StringWithAggregatesFilter<"JobOffer"> | string
-    salary?: FloatWithAggregatesFilter<"JobOffer"> | number
+    salary?: FloatNullableWithAggregatesFilter<"JobOffer"> | number | null
   }
 
   export type CompanyWhereInput = {
@@ -22141,15 +22247,15 @@ export namespace Prisma {
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     id?: BigIntFilter<"Company"> | bigint | number
     name?: StringFilter<"Company"> | string
-    cityId?: BigIntFilter<"Company"> | bigint | number
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    cityId?: BigIntNullableFilter<"Company"> | bigint | number | null
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     jobOffers?: JobOfferListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    cityId?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     city?: CityOrderByWithRelationInput
     jobOffers?: JobOfferOrderByRelationAggregateInput
   }
@@ -22160,15 +22266,15 @@ export namespace Prisma {
     OR?: CompanyWhereInput[]
     NOT?: CompanyWhereInput | CompanyWhereInput[]
     name?: StringFilter<"Company"> | string
-    cityId?: BigIntFilter<"Company"> | bigint | number
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    cityId?: BigIntNullableFilter<"Company"> | bigint | number | null
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     jobOffers?: JobOfferListRelationFilter
   }, "id">
 
   export type CompanyOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    cityId?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     _count?: CompanyCountOrderByAggregateInput
     _avg?: CompanyAvgOrderByAggregateInput
     _max?: CompanyMaxOrderByAggregateInput
@@ -22182,7 +22288,7 @@ export namespace Prisma {
     NOT?: CompanyScalarWhereWithAggregatesInput | CompanyScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Company"> | bigint | number
     name?: StringWithAggregatesFilter<"Company"> | string
-    cityId?: BigIntWithAggregatesFilter<"Company"> | bigint | number
+    cityId?: BigIntNullableWithAggregatesFilter<"Company"> | bigint | number | null
   }
 
   export type DwellingWhereInput = {
@@ -22191,14 +22297,15 @@ export namespace Prisma {
     NOT?: DwellingWhereInput | DwellingWhereInput[]
     id?: BigIntFilter<"Dwelling"> | bigint | number
     direction?: StringFilter<"Dwelling"> | string
-    cityId?: BigIntFilter<"Dwelling"> | bigint | number
+    description?: StringFilter<"Dwelling"> | string
+    cityId?: BigIntNullableFilter<"Dwelling"> | bigint | number | null
     zipCode?: StringFilter<"Dwelling"> | string
     type?: StringFilter<"Dwelling"> | string
     rooms?: IntFilter<"Dwelling"> | number
     meters?: FloatFilter<"Dwelling"> | number
     ownerId?: BigIntFilter<"Dwelling"> | bigint | number
     price?: FloatFilter<"Dwelling"> | number
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     owner?: XOR<OwnerScalarRelationFilter, OwnerWhereInput>
     favDwellings?: FavDwellingListRelationFilter
   }
@@ -22206,7 +22313,8 @@ export namespace Prisma {
   export type DwellingOrderByWithRelationInput = {
     id?: SortOrder
     direction?: SortOrder
-    cityId?: SortOrder
+    description?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     zipCode?: SortOrder
     type?: SortOrder
     rooms?: SortOrder
@@ -22224,14 +22332,15 @@ export namespace Prisma {
     OR?: DwellingWhereInput[]
     NOT?: DwellingWhereInput | DwellingWhereInput[]
     direction?: StringFilter<"Dwelling"> | string
-    cityId?: BigIntFilter<"Dwelling"> | bigint | number
+    description?: StringFilter<"Dwelling"> | string
+    cityId?: BigIntNullableFilter<"Dwelling"> | bigint | number | null
     zipCode?: StringFilter<"Dwelling"> | string
     type?: StringFilter<"Dwelling"> | string
     rooms?: IntFilter<"Dwelling"> | number
     meters?: FloatFilter<"Dwelling"> | number
     ownerId?: BigIntFilter<"Dwelling"> | bigint | number
     price?: FloatFilter<"Dwelling"> | number
-    city?: XOR<CityScalarRelationFilter, CityWhereInput>
+    city?: XOR<CityNullableScalarRelationFilter, CityWhereInput> | null
     owner?: XOR<OwnerScalarRelationFilter, OwnerWhereInput>
     favDwellings?: FavDwellingListRelationFilter
   }, "id">
@@ -22239,7 +22348,8 @@ export namespace Prisma {
   export type DwellingOrderByWithAggregationInput = {
     id?: SortOrder
     direction?: SortOrder
-    cityId?: SortOrder
+    description?: SortOrder
+    cityId?: SortOrderInput | SortOrder
     zipCode?: SortOrder
     type?: SortOrder
     rooms?: SortOrder
@@ -22259,7 +22369,8 @@ export namespace Prisma {
     NOT?: DwellingScalarWhereWithAggregatesInput | DwellingScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"Dwelling"> | bigint | number
     direction?: StringWithAggregatesFilter<"Dwelling"> | string
-    cityId?: BigIntWithAggregatesFilter<"Dwelling"> | bigint | number
+    description?: StringWithAggregatesFilter<"Dwelling"> | string
+    cityId?: BigIntNullableWithAggregatesFilter<"Dwelling"> | bigint | number | null
     zipCode?: StringWithAggregatesFilter<"Dwelling"> | string
     type?: StringWithAggregatesFilter<"Dwelling"> | string
     rooms?: IntWithAggregatesFilter<"Dwelling"> | number
@@ -22275,7 +22386,7 @@ export namespace Prisma {
     id?: BigIntFilter<"Owner"> | bigint | number
     name?: StringFilter<"Owner"> | string
     email?: StringFilter<"Owner"> | string
-    telephone?: StringFilter<"Owner"> | string
+    telephone?: StringNullableFilter<"Owner"> | string | null
     dwellings?: DwellingListRelationFilter
   }
 
@@ -22283,7 +22394,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
-    telephone?: SortOrder
+    telephone?: SortOrderInput | SortOrder
     dwellings?: DwellingOrderByRelationAggregateInput
   }
 
@@ -22294,7 +22405,7 @@ export namespace Prisma {
     OR?: OwnerWhereInput[]
     NOT?: OwnerWhereInput | OwnerWhereInput[]
     name?: StringFilter<"Owner"> | string
-    telephone?: StringFilter<"Owner"> | string
+    telephone?: StringNullableFilter<"Owner"> | string | null
     dwellings?: DwellingListRelationFilter
   }, "id" | "email">
 
@@ -22302,7 +22413,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
-    telephone?: SortOrder
+    telephone?: SortOrderInput | SortOrder
     _count?: OwnerCountOrderByAggregateInput
     _avg?: OwnerAvgOrderByAggregateInput
     _max?: OwnerMaxOrderByAggregateInput
@@ -22317,7 +22428,7 @@ export namespace Prisma {
     id?: BigIntWithAggregatesFilter<"Owner"> | bigint | number
     name?: StringWithAggregatesFilter<"Owner"> | string
     email?: StringWithAggregatesFilter<"Owner"> | string
-    telephone?: StringWithAggregatesFilter<"Owner"> | string
+    telephone?: StringNullableWithAggregatesFilter<"Owner"> | string | null
   }
 
   export type UserCreateInput = {
@@ -22350,7 +22461,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchDwellings?: FavSearchDwellingUncheckedCreateNestedManyWithoutUserInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutUserInput
@@ -22390,7 +22501,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchDwellings?: FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutUserNestedInput
@@ -22410,7 +22521,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
   }
 
@@ -22437,165 +22548,158 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type FavSearchDwellingCreateInput = {
     id?: bigint | number
-    direction: string
-    cityId: bigint | number
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId?: number | null
+    type?: string | null
+    rooms?: number | null
+    squareMeters?: number | null
+    price?: number | null
+    bathrooms?: number | null
     user: UserCreateNestedOneWithoutFavSearchDwellingsInput
   }
 
   export type FavSearchDwellingUncheckedCreateInput = {
     id?: bigint | number
-    direction: string
-    cityId: bigint | number
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId?: number | null
+    type?: string | null
+    rooms?: number | null
+    squareMeters?: number | null
+    price?: number | null
+    bathrooms?: number | null
     userId: bigint | number
   }
 
   export type FavSearchDwellingUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
     user?: UserUpdateOneRequiredWithoutFavSearchDwellingsNestedInput
   }
 
   export type FavSearchDwellingUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type FavSearchDwellingCreateManyInput = {
     id?: bigint | number
-    direction: string
-    cityId: bigint | number
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId?: number | null
+    type?: string | null
+    rooms?: number | null
+    squareMeters?: number | null
+    price?: number | null
+    bathrooms?: number | null
     userId: bigint | number
   }
 
   export type FavSearchDwellingUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FavSearchDwellingUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type FavSearchJobCreateInput = {
     id?: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
-    city: CityCreateNestedOneWithoutFavSearchJobsInput
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
+    city?: CityCreateNestedOneWithoutFavSearchJobsInput
     user: UserCreateNestedOneWithoutFavSearchJobsInput
   }
 
   export type FavSearchJobUncheckedCreateInput = {
     id?: bigint | number
-    cityId: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    cityId?: bigint | number | null
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
     userId: bigint | number
   }
 
   export type FavSearchJobUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
-    city?: CityUpdateOneRequiredWithoutFavSearchJobsNestedInput
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: CityUpdateOneWithoutFavSearchJobsNestedInput
     user?: UserUpdateOneRequiredWithoutFavSearchJobsNestedInput
   }
 
   export type FavSearchJobUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type FavSearchJobCreateManyInput = {
     id?: bigint | number
-    cityId: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    cityId?: bigint | number | null
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
     userId: bigint | number
   }
 
   export type FavSearchJobUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FavSearchJobUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
@@ -22607,7 +22711,7 @@ export namespace Prisma {
 
   export type FavSearchCityUncheckedCreateInput = {
     id?: bigint | number
-    countryId: bigint | number
+    countryId: number
     userId: bigint | number
   }
 
@@ -22619,13 +22723,13 @@ export namespace Prisma {
 
   export type FavSearchCityUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type FavSearchCityCreateManyInput = {
     id?: bigint | number
-    countryId: bigint | number
+    countryId: number
     userId: bigint | number
   }
 
@@ -22635,7 +22739,7 @@ export namespace Prisma {
 
   export type FavSearchCityUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
@@ -22688,7 +22792,7 @@ export namespace Prisma {
   export type FavCountryUncheckedCreateInput = {
     id?: bigint | number
     userId: bigint | number
-    countryId: bigint | number
+    countryId: number
   }
 
   export type FavCountryUpdateInput = {
@@ -22700,13 +22804,13 @@ export namespace Prisma {
   export type FavCountryUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavCountryCreateManyInput = {
     id?: bigint | number
     userId: bigint | number
-    countryId: bigint | number
+    countryId: number
   }
 
   export type FavCountryUpdateManyMutationInput = {
@@ -22716,7 +22820,7 @@ export namespace Prisma {
   export type FavCountryUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavDwellingCreateInput = {
@@ -22762,7 +22866,7 @@ export namespace Prisma {
   export type ProcedureCreateInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
+    lastUpdate?: Date | string | null
     country: CountryCreateNestedOneWithoutProceduresInput
     documents?: DocumentCreateNestedManyWithoutProcedureInput
   }
@@ -22770,15 +22874,15 @@ export namespace Prisma {
   export type ProcedureUncheckedCreateInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
-    countryId: bigint | number
+    lastUpdate?: Date | string | null
+    countryId: number
     documents?: DocumentUncheckedCreateNestedManyWithoutProcedureInput
   }
 
   export type ProcedureUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     country?: CountryUpdateOneRequiredWithoutProceduresNestedInput
     documents?: DocumentUpdateManyWithoutProcedureNestedInput
   }
@@ -22786,29 +22890,29 @@ export namespace Prisma {
   export type ProcedureUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    countryId?: IntFieldUpdateOperationsInput | number
     documents?: DocumentUncheckedUpdateManyWithoutProcedureNestedInput
   }
 
   export type ProcedureCreateManyInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
-    countryId: bigint | number
+    lastUpdate?: Date | string | null
+    countryId: number
   }
 
   export type ProcedureUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProcedureUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type DocumentCreateInput = {
@@ -22853,9 +22957,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -22868,9 +22970,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -22883,9 +22984,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -22898,9 +22997,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -22913,25 +23011,21 @@ export namespace Prisma {
   }
 
   export type CountryCreateManyInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
   }
 
   export type CountryUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type CountryUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -22951,7 +23045,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     code: string
-    countryId: bigint | number
+    countryId: number
     companies?: CompanyUncheckedCreateNestedManyWithoutCityInput
     dwellings?: DwellingUncheckedCreateNestedManyWithoutCityInput
     jobOffers?: JobOfferUncheckedCreateNestedManyWithoutCityInput
@@ -22973,7 +23067,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     companies?: CompanyUncheckedUpdateManyWithoutCityNestedInput
     dwellings?: DwellingUncheckedUpdateManyWithoutCityNestedInput
     jobOffers?: JobOfferUncheckedUpdateManyWithoutCityNestedInput
@@ -22984,7 +23078,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     code: string
-    countryId: bigint | number
+    countryId: number
   }
 
   export type CityUpdateManyMutationInput = {
@@ -22997,7 +23091,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type LivingCostCreateInput = {
@@ -23008,7 +23102,8 @@ export namespace Prisma {
   }
 
   export type LivingCostUncheckedCreateInput = {
-    countryId: bigint | number
+    id?: number
+    countryId: number
     foodCost: number
     transportCost: number
     monthlyEstimate: number
@@ -23022,14 +23117,16 @@ export namespace Prisma {
   }
 
   export type LivingCostUncheckedUpdateInput = {
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
+    countryId?: IntFieldUpdateOperationsInput | number
     foodCost?: FloatFieldUpdateOperationsInput | number
     transportCost?: FloatFieldUpdateOperationsInput | number
     monthlyEstimate?: FloatFieldUpdateOperationsInput | number
   }
 
   export type LivingCostCreateManyInput = {
-    countryId: bigint | number
+    id?: number
+    countryId: number
     foodCost: number
     transportCost: number
     monthlyEstimate: number
@@ -23042,7 +23139,8 @@ export namespace Prisma {
   }
 
   export type LivingCostUncheckedUpdateManyInput = {
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
+    countryId?: IntFieldUpdateOperationsInput | number
     foodCost?: FloatFieldUpdateOperationsInput | number
     transportCost?: FloatFieldUpdateOperationsInput | number
     monthlyEstimate?: FloatFieldUpdateOperationsInput | number
@@ -23054,14 +23152,15 @@ export namespace Prisma {
     description: string
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     company: CompanyCreateNestedOneWithoutJobOffersInput
     country: CountryCreateNestedOneWithoutJobOffersInput
-    city: CityCreateNestedOneWithoutJobOffersInput
+    city?: CityCreateNestedOneWithoutJobOffersInput
     favJobs?: FavJobCreateNestedManyWithoutJobInput
   }
 
@@ -23070,15 +23169,16 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    countryId: bigint | number
-    cityId: bigint | number
+    countryId: number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     favJobs?: FavJobUncheckedCreateNestedManyWithoutJobInput
   }
 
@@ -23088,14 +23188,15 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     company?: CompanyUpdateOneRequiredWithoutJobOffersNestedInput
     country?: CountryUpdateOneRequiredWithoutJobOffersNestedInput
-    city?: CityUpdateOneRequiredWithoutJobOffersNestedInput
+    city?: CityUpdateOneWithoutJobOffersNestedInput
     favJobs?: FavJobUpdateManyWithoutJobNestedInput
   }
 
@@ -23104,15 +23205,16 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     favJobs?: FavJobUncheckedUpdateManyWithoutJobNestedInput
   }
 
@@ -23121,15 +23223,16 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    countryId: bigint | number
-    cityId: bigint | number
+    countryId: number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
   }
 
   export type JobOfferUpdateManyMutationInput = {
@@ -23138,11 +23241,12 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type JobOfferUncheckedUpdateManyInput = {
@@ -23150,49 +23254,50 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type CompanyCreateInput = {
     id?: bigint | number
     name: string
-    city: CityCreateNestedOneWithoutCompaniesInput
+    city?: CityCreateNestedOneWithoutCompaniesInput
     jobOffers?: JobOfferCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
     id?: bigint | number
     name: string
-    cityId: bigint | number
+    cityId?: bigint | number | null
     jobOffers?: JobOfferUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    city?: CityUpdateOneRequiredWithoutCompaniesNestedInput
+    city?: CityUpdateOneWithoutCompaniesNestedInput
     jobOffers?: JobOfferUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     jobOffers?: JobOfferUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
     id?: bigint | number
     name: string
-    cityId: bigint | number
+    cityId?: bigint | number | null
   }
 
   export type CompanyUpdateManyMutationInput = {
@@ -23203,18 +23308,19 @@ export namespace Prisma {
   export type CompanyUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type DwellingCreateInput = {
     id?: bigint | number
     direction: string
+    description: string
     zipCode: string
     type: string
     rooms: number
     meters: number
     price: number
-    city: CityCreateNestedOneWithoutDwellingsInput
+    city?: CityCreateNestedOneWithoutDwellingsInput
     owner: OwnerCreateNestedOneWithoutDwellingsInput
     favDwellings?: FavDwellingCreateNestedManyWithoutDwellingInput
   }
@@ -23222,7 +23328,8 @@ export namespace Prisma {
   export type DwellingUncheckedCreateInput = {
     id?: bigint | number
     direction: string
-    cityId: bigint | number
+    description: string
+    cityId?: bigint | number | null
     zipCode: string
     type: string
     rooms: number
@@ -23235,12 +23342,13 @@ export namespace Prisma {
   export type DwellingUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
     meters?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    city?: CityUpdateOneRequiredWithoutDwellingsNestedInput
+    city?: CityUpdateOneWithoutDwellingsNestedInput
     owner?: OwnerUpdateOneRequiredWithoutDwellingsNestedInput
     favDwellings?: FavDwellingUpdateManyWithoutDwellingNestedInput
   }
@@ -23248,7 +23356,8 @@ export namespace Prisma {
   export type DwellingUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    description?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -23261,7 +23370,8 @@ export namespace Prisma {
   export type DwellingCreateManyInput = {
     id?: bigint | number
     direction: string
-    cityId: bigint | number
+    description: string
+    cityId?: bigint | number | null
     zipCode: string
     type: string
     rooms: number
@@ -23273,6 +23383,7 @@ export namespace Prisma {
   export type DwellingUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -23283,7 +23394,8 @@ export namespace Prisma {
   export type DwellingUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    description?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -23296,7 +23408,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     email: string
-    telephone: string
+    telephone?: string | null
     dwellings?: DwellingCreateNestedManyWithoutOwnerInput
   }
 
@@ -23304,7 +23416,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     email: string
-    telephone: string
+    telephone?: string | null
     dwellings?: DwellingUncheckedCreateNestedManyWithoutOwnerInput
   }
 
@@ -23312,7 +23424,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    telephone?: StringFieldUpdateOperationsInput | string
+    telephone?: NullableStringFieldUpdateOperationsInput | string | null
     dwellings?: DwellingUpdateManyWithoutOwnerNestedInput
   }
 
@@ -23320,7 +23432,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    telephone?: StringFieldUpdateOperationsInput | string
+    telephone?: NullableStringFieldUpdateOperationsInput | string | null
     dwellings?: DwellingUncheckedUpdateManyWithoutOwnerNestedInput
   }
 
@@ -23328,21 +23440,21 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     email: string
-    telephone: string
+    telephone?: string | null
   }
 
   export type OwnerUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    telephone?: StringFieldUpdateOperationsInput | string
+    telephone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OwnerUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    telephone?: StringFieldUpdateOperationsInput | string
+    telephone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type BigIntFilter<$PrismaModel = never> = {
@@ -23395,6 +23507,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -23590,6 +23713,22 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
@@ -23598,26 +23737,26 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type UserScalarRelationFilter = {
@@ -23627,7 +23766,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingCountOrderByAggregateInput = {
     id?: SortOrder
-    direction?: SortOrder
     cityId?: SortOrder
     type?: SortOrder
     rooms?: SortOrder
@@ -23649,7 +23787,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingMaxOrderByAggregateInput = {
     id?: SortOrder
-    direction?: SortOrder
     cityId?: SortOrder
     type?: SortOrder
     rooms?: SortOrder
@@ -23661,7 +23798,6 @@ export namespace Prisma {
 
   export type FavSearchDwellingMinOrderByAggregateInput = {
     id?: SortOrder
-    direction?: SortOrder
     cityId?: SortOrder
     type?: SortOrder
     rooms?: SortOrder
@@ -23681,41 +23817,52 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type CityScalarRelationFilter = {
-    is?: CityWhereInput
-    isNot?: CityWhereInput
+  export type BigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type CityNullableScalarRelationFilter = {
+    is?: CityWhereInput | null
+    isNot?: CityWhereInput | null
   }
 
   export type FavSearchJobCountOrderByAggregateInput = {
@@ -23725,13 +23872,15 @@ export namespace Prisma {
     experience?: SortOrder
     workday?: SortOrder
     salary?: SortOrder
-    contract?: SortOrder
+    journey?: SortOrder
     userId?: SortOrder
   }
 
   export type FavSearchJobAvgOrderByAggregateInput = {
     id?: SortOrder
     cityId?: SortOrder
+    experience?: SortOrder
+    workday?: SortOrder
     salary?: SortOrder
     userId?: SortOrder
   }
@@ -23743,7 +23892,7 @@ export namespace Prisma {
     experience?: SortOrder
     workday?: SortOrder
     salary?: SortOrder
-    contract?: SortOrder
+    journey?: SortOrder
     userId?: SortOrder
   }
 
@@ -23754,15 +23903,33 @@ export namespace Prisma {
     experience?: SortOrder
     workday?: SortOrder
     salary?: SortOrder
-    contract?: SortOrder
+    journey?: SortOrder
     userId?: SortOrder
   }
 
   export type FavSearchJobSumOrderByAggregateInput = {
     id?: SortOrder
     cityId?: SortOrder
+    experience?: SortOrder
+    workday?: SortOrder
     salary?: SortOrder
     userId?: SortOrder
+  }
+
+  export type BigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
   }
 
   export type FavSearchCityCountOrderByAggregateInput = {
@@ -23895,6 +24062,17 @@ export namespace Prisma {
     dwellingId?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type DocumentListRelationFilter = {
     every?: DocumentWhereInput
     some?: DocumentWhereInput
@@ -23934,6 +24112,20 @@ export namespace Prisma {
   export type ProcedureSumOrderByAggregateInput = {
     id?: SortOrder
     countryId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ProcedureScalarRelationFilter = {
@@ -24017,7 +24209,6 @@ export namespace Prisma {
   export type CountryCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    code?: SortOrder
     continent?: SortOrder
     flagUrl?: SortOrder
   }
@@ -24029,7 +24220,6 @@ export namespace Prisma {
   export type CountryMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    code?: SortOrder
     continent?: SortOrder
     flagUrl?: SortOrder
   }
@@ -24037,7 +24227,6 @@ export namespace Prisma {
   export type CountryMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    code?: SortOrder
     continent?: SortOrder
     flagUrl?: SortOrder
   }
@@ -24097,7 +24286,19 @@ export namespace Prisma {
     countryId?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type LivingCostCountOrderByAggregateInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
@@ -24105,6 +24306,7 @@ export namespace Prisma {
   }
 
   export type LivingCostAvgOrderByAggregateInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
@@ -24112,6 +24314,7 @@ export namespace Prisma {
   }
 
   export type LivingCostMaxOrderByAggregateInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
@@ -24119,6 +24322,7 @@ export namespace Prisma {
   }
 
   export type LivingCostMinOrderByAggregateInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
@@ -24126,10 +24330,27 @@ export namespace Prisma {
   }
 
   export type LivingCostSumOrderByAggregateInput = {
+    id?: SortOrder
     countryId?: SortOrder
     foodCost?: SortOrder
     transportCost?: SortOrder
     monthlyEstimate?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type CompanyScalarRelationFilter = {
@@ -24147,6 +24368,7 @@ export namespace Prisma {
     contract?: SortOrder
     timestampStart?: SortOrder
     timestampEnd?: SortOrder
+    experience?: SortOrder
     requirements?: SortOrder
     workSector?: SortOrder
     workday?: SortOrder
@@ -24171,6 +24393,7 @@ export namespace Prisma {
     contract?: SortOrder
     timestampStart?: SortOrder
     timestampEnd?: SortOrder
+    experience?: SortOrder
     requirements?: SortOrder
     workSector?: SortOrder
     workday?: SortOrder
@@ -24187,6 +24410,7 @@ export namespace Prisma {
     contract?: SortOrder
     timestampStart?: SortOrder
     timestampEnd?: SortOrder
+    experience?: SortOrder
     requirements?: SortOrder
     workSector?: SortOrder
     workday?: SortOrder
@@ -24237,6 +24461,7 @@ export namespace Prisma {
   export type DwellingCountOrderByAggregateInput = {
     id?: SortOrder
     direction?: SortOrder
+    description?: SortOrder
     cityId?: SortOrder
     zipCode?: SortOrder
     type?: SortOrder
@@ -24258,6 +24483,7 @@ export namespace Prisma {
   export type DwellingMaxOrderByAggregateInput = {
     id?: SortOrder
     direction?: SortOrder
+    description?: SortOrder
     cityId?: SortOrder
     zipCode?: SortOrder
     type?: SortOrder
@@ -24270,6 +24496,7 @@ export namespace Prisma {
   export type DwellingMinOrderByAggregateInput = {
     id?: SortOrder
     direction?: SortOrder
+    description?: SortOrder
     cityId?: SortOrder
     zipCode?: SortOrder
     type?: SortOrder
@@ -24523,6 +24750,14 @@ export namespace Prisma {
     deleteMany?: FavDwellingScalarWhereInput | FavDwellingScalarWhereInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<FavSearchDwellingCreateWithoutUserInput, FavSearchDwellingUncheckedCreateWithoutUserInput> | FavSearchDwellingCreateWithoutUserInput[] | FavSearchDwellingUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FavSearchDwellingCreateOrConnectWithoutUserInput | FavSearchDwellingCreateOrConnectWithoutUserInput[]
@@ -24613,16 +24848,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -24649,10 +24884,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type CityUpdateOneRequiredWithoutFavSearchJobsNestedInput = {
+  export type CityUpdateOneWithoutFavSearchJobsNestedInput = {
     create?: XOR<CityCreateWithoutFavSearchJobsInput, CityUncheckedCreateWithoutFavSearchJobsInput>
     connectOrCreate?: CityCreateOrConnectWithoutFavSearchJobsInput
     upsert?: CityUpsertWithoutFavSearchJobsInput
+    disconnect?: CityWhereInput | boolean
+    delete?: CityWhereInput | boolean
     connect?: CityWhereUniqueInput
     update?: XOR<XOR<CityUpdateToOneWithWhereWithoutFavSearchJobsInput, CityUpdateWithoutFavSearchJobsInput>, CityUncheckedUpdateWithoutFavSearchJobsInput>
   }
@@ -24663,6 +24900,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutFavSearchJobsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFavSearchJobsInput, UserUpdateWithoutFavSearchJobsInput>, UserUncheckedUpdateWithoutFavSearchJobsInput>
+  }
+
+  export type NullableBigIntFieldUpdateOperationsInput = {
+    set?: bigint | number | null
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
   }
 
   export type CountryCreateNestedOneWithoutFavSearchCitiesInput = {
@@ -24795,6 +25040,10 @@ export namespace Prisma {
     connectOrCreate?: DocumentCreateOrConnectWithoutProcedureInput | DocumentCreateOrConnectWithoutProcedureInput[]
     createMany?: DocumentCreateManyProcedureInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type CountryUpdateOneRequiredWithoutProceduresNestedInput = {
@@ -25319,6 +25568,14 @@ export namespace Prisma {
     connect?: CountryWhereUniqueInput
   }
 
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type CountryUpdateOneRequiredWithoutLivingCostNestedInput = {
     create?: XOR<CountryCreateWithoutLivingCostInput, CountryUncheckedCreateWithoutLivingCostInput>
     connectOrCreate?: CountryCreateOrConnectWithoutLivingCostInput
@@ -25375,10 +25632,12 @@ export namespace Prisma {
     update?: XOR<XOR<CountryUpdateToOneWithWhereWithoutJobOffersInput, CountryUpdateWithoutJobOffersInput>, CountryUncheckedUpdateWithoutJobOffersInput>
   }
 
-  export type CityUpdateOneRequiredWithoutJobOffersNestedInput = {
+  export type CityUpdateOneWithoutJobOffersNestedInput = {
     create?: XOR<CityCreateWithoutJobOffersInput, CityUncheckedCreateWithoutJobOffersInput>
     connectOrCreate?: CityCreateOrConnectWithoutJobOffersInput
     upsert?: CityUpsertWithoutJobOffersInput
+    disconnect?: CityWhereInput | boolean
+    delete?: CityWhereInput | boolean
     connect?: CityWhereUniqueInput
     update?: XOR<XOR<CityUpdateToOneWithWhereWithoutJobOffersInput, CityUpdateWithoutJobOffersInput>, CityUncheckedUpdateWithoutJobOffersInput>
   }
@@ -25431,10 +25690,12 @@ export namespace Prisma {
     connect?: JobOfferWhereUniqueInput | JobOfferWhereUniqueInput[]
   }
 
-  export type CityUpdateOneRequiredWithoutCompaniesNestedInput = {
+  export type CityUpdateOneWithoutCompaniesNestedInput = {
     create?: XOR<CityCreateWithoutCompaniesInput, CityUncheckedCreateWithoutCompaniesInput>
     connectOrCreate?: CityCreateOrConnectWithoutCompaniesInput
     upsert?: CityUpsertWithoutCompaniesInput
+    disconnect?: CityWhereInput | boolean
+    delete?: CityWhereInput | boolean
     connect?: CityWhereUniqueInput
     update?: XOR<XOR<CityUpdateToOneWithWhereWithoutCompaniesInput, CityUpdateWithoutCompaniesInput>, CityUncheckedUpdateWithoutCompaniesInput>
   }
@@ -25493,10 +25754,12 @@ export namespace Prisma {
     connect?: FavDwellingWhereUniqueInput | FavDwellingWhereUniqueInput[]
   }
 
-  export type CityUpdateOneRequiredWithoutDwellingsNestedInput = {
+  export type CityUpdateOneWithoutDwellingsNestedInput = {
     create?: XOR<CityCreateWithoutDwellingsInput, CityUncheckedCreateWithoutDwellingsInput>
     connectOrCreate?: CityCreateOrConnectWithoutDwellingsInput
     upsert?: CityUpsertWithoutDwellingsInput
+    disconnect?: CityWhereInput | boolean
+    delete?: CityWhereInput | boolean
     connect?: CityWhereUniqueInput
     update?: XOR<XOR<CityUpdateToOneWithWhereWithoutDwellingsInput, CityUpdateWithoutDwellingsInput>, CityUncheckedUpdateWithoutDwellingsInput>
   }
@@ -25629,6 +25892,17 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -25648,17 +25922,6 @@ export namespace Prisma {
     _sum?: NestedBigIntFilter<$PrismaModel>
     _min?: NestedBigIntFilter<$PrismaModel>
     _max?: NestedBigIntFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedFloatFilter<$PrismaModel = never> = {
@@ -25731,14 +25994,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -25753,6 +26008,109 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBigIntNullableFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableFilter<$PrismaModel> | bigint | number | null
+  }
+
+  export type NestedBigIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: bigint | number | BigIntFieldRefInput<$PrismaModel> | null
+    in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    notIn?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel> | null
+    lt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    lte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gt?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    gte?: bigint | number | BigIntFieldRefInput<$PrismaModel>
+    not?: NestedBigIntNullableWithAggregatesFilter<$PrismaModel> | bigint | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedBigIntNullableFilter<$PrismaModel>
+    _min?: NestedBigIntNullableFilter<$PrismaModel>
+    _max?: NestedBigIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -25772,9 +26130,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutUsersInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     cities?: CityCreateNestedManyWithoutCountryInput
@@ -25786,9 +26142,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutUsersInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     cities?: CityUncheckedCreateNestedManyWithoutCountryInput
@@ -25806,24 +26161,22 @@ export namespace Prisma {
 
   export type FavSearchDwellingCreateWithoutUserInput = {
     id?: bigint | number
-    direction: string
-    cityId: bigint | number
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId?: number | null
+    type?: string | null
+    rooms?: number | null
+    squareMeters?: number | null
+    price?: number | null
+    bathrooms?: number | null
   }
 
   export type FavSearchDwellingUncheckedCreateWithoutUserInput = {
     id?: bigint | number
-    direction: string
-    cityId: bigint | number
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId?: number | null
+    type?: string | null
+    rooms?: number | null
+    squareMeters?: number | null
+    price?: number | null
+    bathrooms?: number | null
   }
 
   export type FavSearchDwellingCreateOrConnectWithoutUserInput = {
@@ -25838,22 +26191,22 @@ export namespace Prisma {
 
   export type FavSearchJobCreateWithoutUserInput = {
     id?: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
-    city: CityCreateNestedOneWithoutFavSearchJobsInput
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
+    city?: CityCreateNestedOneWithoutFavSearchJobsInput
   }
 
   export type FavSearchJobUncheckedCreateWithoutUserInput = {
     id?: bigint | number
-    cityId: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    cityId?: bigint | number | null
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
   }
 
   export type FavSearchJobCreateOrConnectWithoutUserInput = {
@@ -25873,7 +26226,7 @@ export namespace Prisma {
 
   export type FavSearchCityUncheckedCreateWithoutUserInput = {
     id?: bigint | number
-    countryId: bigint | number
+    countryId: number
   }
 
   export type FavSearchCityCreateOrConnectWithoutUserInput = {
@@ -25913,7 +26266,7 @@ export namespace Prisma {
 
   export type FavCountryUncheckedCreateWithoutUserInput = {
     id?: bigint | number
-    countryId: bigint | number
+    countryId: number
   }
 
   export type FavCountryCreateOrConnectWithoutUserInput = {
@@ -25958,9 +26311,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutUsersInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cities?: CityUpdateManyWithoutCountryNestedInput
@@ -25972,9 +26323,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutUsersInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     cities?: CityUncheckedUpdateManyWithoutCountryNestedInput
@@ -26006,13 +26356,12 @@ export namespace Prisma {
     OR?: FavSearchDwellingScalarWhereInput[]
     NOT?: FavSearchDwellingScalarWhereInput | FavSearchDwellingScalarWhereInput[]
     id?: BigIntFilter<"FavSearchDwelling"> | bigint | number
-    direction?: StringFilter<"FavSearchDwelling"> | string
-    cityId?: BigIntFilter<"FavSearchDwelling"> | bigint | number
-    type?: StringFilter<"FavSearchDwelling"> | string
-    rooms?: IntFilter<"FavSearchDwelling"> | number
-    squareMeters?: FloatFilter<"FavSearchDwelling"> | number
-    price?: FloatFilter<"FavSearchDwelling"> | number
-    bathrooms?: IntFilter<"FavSearchDwelling"> | number
+    cityId?: IntNullableFilter<"FavSearchDwelling"> | number | null
+    type?: StringNullableFilter<"FavSearchDwelling"> | string | null
+    rooms?: IntNullableFilter<"FavSearchDwelling"> | number | null
+    squareMeters?: FloatNullableFilter<"FavSearchDwelling"> | number | null
+    price?: FloatNullableFilter<"FavSearchDwelling"> | number | null
+    bathrooms?: IntNullableFilter<"FavSearchDwelling"> | number | null
     userId?: BigIntFilter<"FavSearchDwelling"> | bigint | number
   }
 
@@ -26037,12 +26386,12 @@ export namespace Prisma {
     OR?: FavSearchJobScalarWhereInput[]
     NOT?: FavSearchJobScalarWhereInput | FavSearchJobScalarWhereInput[]
     id?: BigIntFilter<"FavSearchJob"> | bigint | number
-    cityId?: BigIntFilter<"FavSearchJob"> | bigint | number
-    workSector?: StringFilter<"FavSearchJob"> | string
-    experience?: StringFilter<"FavSearchJob"> | string
-    workday?: StringFilter<"FavSearchJob"> | string
-    salary?: FloatFilter<"FavSearchJob"> | number
-    contract?: StringFilter<"FavSearchJob"> | string
+    cityId?: BigIntNullableFilter<"FavSearchJob"> | bigint | number | null
+    workSector?: StringNullableFilter<"FavSearchJob"> | string | null
+    experience?: IntNullableFilter<"FavSearchJob"> | number | null
+    workday?: IntNullableFilter<"FavSearchJob"> | number | null
+    salary?: FloatNullableFilter<"FavSearchJob"> | number | null
+    journey?: StringNullableFilter<"FavSearchJob"> | string | null
     userId?: BigIntFilter<"FavSearchJob"> | bigint | number
   }
 
@@ -26067,7 +26416,7 @@ export namespace Prisma {
     OR?: FavSearchCityScalarWhereInput[]
     NOT?: FavSearchCityScalarWhereInput | FavSearchCityScalarWhereInput[]
     id?: BigIntFilter<"FavSearchCity"> | bigint | number
-    countryId?: BigIntFilter<"FavSearchCity"> | bigint | number
+    countryId?: IntFilter<"FavSearchCity"> | number
     userId?: BigIntFilter<"FavSearchCity"> | bigint | number
   }
 
@@ -26118,7 +26467,7 @@ export namespace Prisma {
     NOT?: FavCountryScalarWhereInput | FavCountryScalarWhereInput[]
     id?: BigIntFilter<"FavCountry"> | bigint | number
     userId?: BigIntFilter<"FavCountry"> | bigint | number
-    countryId?: BigIntFilter<"FavCountry"> | bigint | number
+    countryId?: IntFilter<"FavCountry"> | number
   }
 
   export type FavDwellingUpsertWithWhereUniqueWithoutUserInput = {
@@ -26175,7 +26524,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutUserInput
     favSearchCities?: FavSearchCityUncheckedCreateNestedManyWithoutUserInput
@@ -26229,7 +26578,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutUserNestedInput
     favSearchCities?: FavSearchCityUncheckedUpdateManyWithoutUserNestedInput
@@ -26252,7 +26601,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     code: string
-    countryId: bigint | number
+    countryId: number
     companies?: CompanyUncheckedCreateNestedManyWithoutCityInput
     dwellings?: DwellingUncheckedCreateNestedManyWithoutCityInput
     jobOffers?: JobOfferUncheckedCreateNestedManyWithoutCityInput
@@ -26292,7 +26641,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchDwellings?: FavSearchDwellingUncheckedCreateNestedManyWithoutUserInput
     favSearchCities?: FavSearchCityUncheckedCreateNestedManyWithoutUserInput
@@ -26331,7 +26680,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     companies?: CompanyUncheckedUpdateManyWithoutCityNestedInput
     dwellings?: DwellingUncheckedUpdateManyWithoutCityNestedInput
     jobOffers?: JobOfferUncheckedUpdateManyWithoutCityNestedInput
@@ -26377,7 +26726,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchDwellings?: FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput
     favSearchCities?: FavSearchCityUncheckedUpdateManyWithoutUserNestedInput
@@ -26387,9 +26736,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutFavSearchCitiesInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -26401,9 +26748,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutFavSearchCitiesInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -26448,7 +26794,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchDwellings?: FavSearchDwellingUncheckedCreateNestedManyWithoutUserInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutUserInput
@@ -26474,9 +26820,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutFavSearchCitiesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -26488,9 +26832,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutFavSearchCitiesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -26541,7 +26884,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchDwellings?: FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutUserNestedInput
@@ -26579,7 +26922,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchDwellings?: FavSearchDwellingUncheckedCreateNestedManyWithoutUserInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutUserInput
@@ -26599,14 +26942,15 @@ export namespace Prisma {
     description: string
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     company: CompanyCreateNestedOneWithoutJobOffersInput
     country: CountryCreateNestedOneWithoutJobOffersInput
-    city: CityCreateNestedOneWithoutJobOffersInput
+    city?: CityCreateNestedOneWithoutJobOffersInput
   }
 
   export type JobOfferUncheckedCreateWithoutFavJobsInput = {
@@ -26614,15 +26958,16 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    countryId: bigint | number
-    cityId: bigint | number
+    countryId: number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
   }
 
   export type JobOfferCreateOrConnectWithoutFavJobsInput = {
@@ -26670,7 +27015,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchDwellings?: FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutUserNestedInput
@@ -26696,14 +27041,15 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     company?: CompanyUpdateOneRequiredWithoutJobOffersNestedInput
     country?: CountryUpdateOneRequiredWithoutJobOffersNestedInput
-    city?: CityUpdateOneRequiredWithoutJobOffersNestedInput
+    city?: CityUpdateOneWithoutJobOffersNestedInput
   }
 
   export type JobOfferUncheckedUpdateWithoutFavJobsInput = {
@@ -26711,15 +27057,16 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type UserCreateWithoutFavCountriesInput = {
@@ -26751,7 +27098,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchDwellings?: FavSearchDwellingUncheckedCreateNestedManyWithoutUserInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutUserInput
@@ -26766,9 +27113,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutFavCountriesInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -26780,9 +27125,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutFavCountriesInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -26838,7 +27182,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchDwellings?: FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutUserNestedInput
@@ -26859,9 +27203,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutFavCountriesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -26873,9 +27215,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutFavCountriesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -26915,7 +27256,7 @@ export namespace Prisma {
     birthdate: Date | string
     name: string
     surname: string
-    countryId: bigint | number
+    countryId: number
     eu: boolean
     favSearchDwellings?: FavSearchDwellingUncheckedCreateNestedManyWithoutUserInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutUserInput
@@ -26932,19 +27273,21 @@ export namespace Prisma {
   export type DwellingCreateWithoutFavDwellingsInput = {
     id?: bigint | number
     direction: string
+    description: string
     zipCode: string
     type: string
     rooms: number
     meters: number
     price: number
-    city: CityCreateNestedOneWithoutDwellingsInput
+    city?: CityCreateNestedOneWithoutDwellingsInput
     owner: OwnerCreateNestedOneWithoutDwellingsInput
   }
 
   export type DwellingUncheckedCreateWithoutFavDwellingsInput = {
     id?: bigint | number
     direction: string
-    cityId: bigint | number
+    description: string
+    cityId?: bigint | number | null
     zipCode: string
     type: string
     rooms: number
@@ -26998,7 +27341,7 @@ export namespace Prisma {
     birthdate?: DateTimeFieldUpdateOperationsInput | Date | string
     name?: StringFieldUpdateOperationsInput | string
     surname?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     eu?: BoolFieldUpdateOperationsInput | boolean
     favSearchDwellings?: FavSearchDwellingUncheckedUpdateManyWithoutUserNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutUserNestedInput
@@ -27021,19 +27364,21 @@ export namespace Prisma {
   export type DwellingUpdateWithoutFavDwellingsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
     meters?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    city?: CityUpdateOneRequiredWithoutDwellingsNestedInput
+    city?: CityUpdateOneWithoutDwellingsNestedInput
     owner?: OwnerUpdateOneRequiredWithoutDwellingsNestedInput
   }
 
   export type DwellingUncheckedUpdateWithoutFavDwellingsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    description?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -27043,9 +27388,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutProceduresInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -27057,9 +27400,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutProceduresInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -27107,9 +27449,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutProceduresInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -27121,9 +27461,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutProceduresInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -27162,15 +27501,15 @@ export namespace Prisma {
   export type ProcedureCreateWithoutDocumentsInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
+    lastUpdate?: Date | string | null
     country: CountryCreateNestedOneWithoutProceduresInput
   }
 
   export type ProcedureUncheckedCreateWithoutDocumentsInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
-    countryId: bigint | number
+    lastUpdate?: Date | string | null
+    countryId: number
   }
 
   export type ProcedureCreateOrConnectWithoutDocumentsInput = {
@@ -27192,15 +27531,15 @@ export namespace Prisma {
   export type ProcedureUpdateWithoutDocumentsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     country?: CountryUpdateOneRequiredWithoutProceduresNestedInput
   }
 
   export type ProcedureUncheckedUpdateWithoutDocumentsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type UserCreateWithoutCountryInput = {
@@ -27288,6 +27627,7 @@ export namespace Prisma {
   }
 
   export type LivingCostUncheckedCreateWithoutCountryInput = {
+    id?: number
     foodCost: number
     transportCost: number
     monthlyEstimate: number
@@ -27304,13 +27644,14 @@ export namespace Prisma {
     description: string
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     company: CompanyCreateNestedOneWithoutJobOffersInput
-    city: CityCreateNestedOneWithoutJobOffersInput
+    city?: CityCreateNestedOneWithoutJobOffersInput
     favJobs?: FavJobCreateNestedManyWithoutJobInput
   }
 
@@ -27319,14 +27660,15 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    cityId: bigint | number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     favJobs?: FavJobUncheckedCreateNestedManyWithoutJobInput
   }
 
@@ -27343,14 +27685,14 @@ export namespace Prisma {
   export type ProcedureCreateWithoutCountryInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
+    lastUpdate?: Date | string | null
     documents?: DocumentCreateNestedManyWithoutProcedureInput
   }
 
   export type ProcedureUncheckedCreateWithoutCountryInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
+    lastUpdate?: Date | string | null
     documents?: DocumentUncheckedCreateNestedManyWithoutProcedureInput
   }
 
@@ -27433,7 +27775,7 @@ export namespace Prisma {
     birthdate?: DateTimeFilter<"User"> | Date | string
     name?: StringFilter<"User"> | string
     surname?: StringFilter<"User"> | string
-    countryId?: BigIntFilter<"User"> | bigint | number
+    countryId?: IntFilter<"User"> | number
     eu?: BoolFilter<"User"> | boolean
   }
 
@@ -27460,7 +27802,7 @@ export namespace Prisma {
     id?: BigIntFilter<"City"> | bigint | number
     name?: StringFilter<"City"> | string
     code?: StringFilter<"City"> | string
-    countryId?: BigIntFilter<"City"> | bigint | number
+    countryId?: IntFilter<"City"> | number
   }
 
   export type LivingCostUpsertWithoutCountryInput = {
@@ -27481,6 +27823,7 @@ export namespace Prisma {
   }
 
   export type LivingCostUncheckedUpdateWithoutCountryInput = {
+    id?: IntFieldUpdateOperationsInput | number
     foodCost?: FloatFieldUpdateOperationsInput | number
     transportCost?: FloatFieldUpdateOperationsInput | number
     monthlyEstimate?: FloatFieldUpdateOperationsInput | number
@@ -27510,15 +27853,16 @@ export namespace Prisma {
     title?: StringFilter<"JobOffer"> | string
     description?: StringFilter<"JobOffer"> | string
     companyId?: BigIntFilter<"JobOffer"> | bigint | number
-    countryId?: BigIntFilter<"JobOffer"> | bigint | number
-    cityId?: BigIntFilter<"JobOffer"> | bigint | number
+    countryId?: IntFilter<"JobOffer"> | number
+    cityId?: BigIntNullableFilter<"JobOffer"> | bigint | number | null
     contract?: StringFilter<"JobOffer"> | string
     timestampStart?: DateTimeFilter<"JobOffer"> | Date | string
-    timestampEnd?: DateTimeFilter<"JobOffer"> | Date | string
-    requirements?: StringFilter<"JobOffer"> | string
+    timestampEnd?: DateTimeNullableFilter<"JobOffer"> | Date | string | null
+    experience?: StringFilter<"JobOffer"> | string
+    requirements?: StringNullableFilter<"JobOffer"> | string | null
     workSector?: StringFilter<"JobOffer"> | string
     workday?: StringFilter<"JobOffer"> | string
-    salary?: FloatFilter<"JobOffer"> | number
+    salary?: FloatNullableFilter<"JobOffer"> | number | null
   }
 
   export type ProcedureUpsertWithWhereUniqueWithoutCountryInput = {
@@ -27543,8 +27887,8 @@ export namespace Prisma {
     NOT?: ProcedureScalarWhereInput | ProcedureScalarWhereInput[]
     id?: BigIntFilter<"Procedure"> | bigint | number
     name?: StringFilter<"Procedure"> | string
-    lastUpdate?: DateTimeFilter<"Procedure"> | Date | string
-    countryId?: BigIntFilter<"Procedure"> | bigint | number
+    lastUpdate?: DateTimeNullableFilter<"Procedure"> | Date | string | null
+    countryId?: IntFilter<"Procedure"> | number
   }
 
   export type FavSearchCityUpsertWithWhereUniqueWithoutCountryInput = {
@@ -27580,9 +27924,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutCitiesInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -27594,9 +27936,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutCitiesInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -27637,6 +27978,7 @@ export namespace Prisma {
   export type DwellingCreateWithoutCityInput = {
     id?: bigint | number
     direction: string
+    description: string
     zipCode: string
     type: string
     rooms: number
@@ -27649,6 +27991,7 @@ export namespace Prisma {
   export type DwellingUncheckedCreateWithoutCityInput = {
     id?: bigint | number
     direction: string
+    description: string
     zipCode: string
     type: string
     rooms: number
@@ -27674,11 +28017,12 @@ export namespace Prisma {
     description: string
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     company: CompanyCreateNestedOneWithoutJobOffersInput
     country: CountryCreateNestedOneWithoutJobOffersInput
     favJobs?: FavJobCreateNestedManyWithoutJobInput
@@ -27689,14 +28033,15 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    countryId: bigint | number
+    countryId: number
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     favJobs?: FavJobUncheckedCreateNestedManyWithoutJobInput
   }
 
@@ -27712,21 +28057,21 @@ export namespace Prisma {
 
   export type FavSearchJobCreateWithoutCityInput = {
     id?: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
     user: UserCreateNestedOneWithoutFavSearchJobsInput
   }
 
   export type FavSearchJobUncheckedCreateWithoutCityInput = {
     id?: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
     userId: bigint | number
   }
 
@@ -27752,9 +28097,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutCitiesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -27766,9 +28109,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutCitiesInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -27801,7 +28143,7 @@ export namespace Prisma {
     NOT?: CompanyScalarWhereInput | CompanyScalarWhereInput[]
     id?: BigIntFilter<"Company"> | bigint | number
     name?: StringFilter<"Company"> | string
-    cityId?: BigIntFilter<"Company"> | bigint | number
+    cityId?: BigIntNullableFilter<"Company"> | bigint | number | null
   }
 
   export type DwellingUpsertWithWhereUniqueWithoutCityInput = {
@@ -27826,7 +28168,8 @@ export namespace Prisma {
     NOT?: DwellingScalarWhereInput | DwellingScalarWhereInput[]
     id?: BigIntFilter<"Dwelling"> | bigint | number
     direction?: StringFilter<"Dwelling"> | string
-    cityId?: BigIntFilter<"Dwelling"> | bigint | number
+    description?: StringFilter<"Dwelling"> | string
+    cityId?: BigIntNullableFilter<"Dwelling"> | bigint | number | null
     zipCode?: StringFilter<"Dwelling"> | string
     type?: StringFilter<"Dwelling"> | string
     rooms?: IntFilter<"Dwelling"> | number
@@ -27868,9 +28211,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutLivingCostInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -27882,9 +28223,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutLivingCostInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -27912,9 +28252,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutLivingCostInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -27926,9 +28264,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutLivingCostInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -27942,13 +28279,13 @@ export namespace Prisma {
   export type CompanyCreateWithoutJobOffersInput = {
     id?: bigint | number
     name: string
-    city: CityCreateNestedOneWithoutCompaniesInput
+    city?: CityCreateNestedOneWithoutCompaniesInput
   }
 
   export type CompanyUncheckedCreateWithoutJobOffersInput = {
     id?: bigint | number
     name: string
-    cityId: bigint | number
+    cityId?: bigint | number | null
   }
 
   export type CompanyCreateOrConnectWithoutJobOffersInput = {
@@ -27957,9 +28294,7 @@ export namespace Prisma {
   }
 
   export type CountryCreateWithoutJobOffersInput = {
-    id?: bigint | number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserCreateNestedManyWithoutCountryInput
@@ -27971,9 +28306,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedCreateWithoutJobOffersInput = {
-    id?: bigint | number
+    id?: number
     name: string
-    code: string
     continent: string
     flagUrl?: string | null
     users?: UserUncheckedCreateNestedManyWithoutCountryInput
@@ -28003,7 +28337,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     code: string
-    countryId: bigint | number
+    countryId: number
     companies?: CompanyUncheckedCreateNestedManyWithoutCityInput
     dwellings?: DwellingUncheckedCreateNestedManyWithoutCityInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutCityInput
@@ -28048,13 +28382,13 @@ export namespace Prisma {
   export type CompanyUpdateWithoutJobOffersInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    city?: CityUpdateOneRequiredWithoutCompaniesNestedInput
+    city?: CityUpdateOneWithoutCompaniesNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutJobOffersInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   }
 
   export type CountryUpsertWithoutJobOffersInput = {
@@ -28069,9 +28403,7 @@ export namespace Prisma {
   }
 
   export type CountryUpdateWithoutJobOffersInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUpdateManyWithoutCountryNestedInput
@@ -28083,9 +28415,8 @@ export namespace Prisma {
   }
 
   export type CountryUncheckedUpdateWithoutJobOffersInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    code?: StringFieldUpdateOperationsInput | string
     continent?: StringFieldUpdateOperationsInput | string
     flagUrl?: NullableStringFieldUpdateOperationsInput | string | null
     users?: UserUncheckedUpdateManyWithoutCountryNestedInput
@@ -28121,7 +28452,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     companies?: CompanyUncheckedUpdateManyWithoutCityNestedInput
     dwellings?: DwellingUncheckedUpdateManyWithoutCityNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutCityNestedInput
@@ -28157,7 +28488,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     code: string
-    countryId: bigint | number
+    countryId: number
     dwellings?: DwellingUncheckedCreateNestedManyWithoutCityInput
     jobOffers?: JobOfferUncheckedCreateNestedManyWithoutCityInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutCityInput
@@ -28174,13 +28505,14 @@ export namespace Prisma {
     description: string
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     country: CountryCreateNestedOneWithoutJobOffersInput
-    city: CityCreateNestedOneWithoutJobOffersInput
+    city?: CityCreateNestedOneWithoutJobOffersInput
     favJobs?: FavJobCreateNestedManyWithoutJobInput
   }
 
@@ -28188,15 +28520,16 @@ export namespace Prisma {
     id?: bigint | number
     title: string
     description: string
-    countryId: bigint | number
-    cityId: bigint | number
+    countryId: number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
     favJobs?: FavJobUncheckedCreateNestedManyWithoutJobInput
   }
 
@@ -28235,7 +28568,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     dwellings?: DwellingUncheckedUpdateManyWithoutCityNestedInput
     jobOffers?: JobOfferUncheckedUpdateManyWithoutCityNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutCityNestedInput
@@ -28271,7 +28604,7 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     code: string
-    countryId: bigint | number
+    countryId: number
     companies?: CompanyUncheckedCreateNestedManyWithoutCityInput
     jobOffers?: JobOfferUncheckedCreateNestedManyWithoutCityInput
     favSearchJobs?: FavSearchJobUncheckedCreateNestedManyWithoutCityInput
@@ -28286,14 +28619,14 @@ export namespace Prisma {
     id?: bigint | number
     name: string
     email: string
-    telephone: string
+    telephone?: string | null
   }
 
   export type OwnerUncheckedCreateWithoutDwellingsInput = {
     id?: bigint | number
     name: string
     email: string
-    telephone: string
+    telephone?: string | null
   }
 
   export type OwnerCreateOrConnectWithoutDwellingsInput = {
@@ -28346,7 +28679,7 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     code?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     companies?: CompanyUncheckedUpdateManyWithoutCityNestedInput
     jobOffers?: JobOfferUncheckedUpdateManyWithoutCityNestedInput
     favSearchJobs?: FavSearchJobUncheckedUpdateManyWithoutCityNestedInput
@@ -28367,14 +28700,14 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    telephone?: StringFieldUpdateOperationsInput | string
+    telephone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OwnerUncheckedUpdateWithoutDwellingsInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    telephone?: StringFieldUpdateOperationsInput | string
+    telephone?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FavDwellingUpsertWithWhereUniqueWithoutDwellingInput = {
@@ -28396,19 +28729,21 @@ export namespace Prisma {
   export type DwellingCreateWithoutOwnerInput = {
     id?: bigint | number
     direction: string
+    description: string
     zipCode: string
     type: string
     rooms: number
     meters: number
     price: number
-    city: CityCreateNestedOneWithoutDwellingsInput
+    city?: CityCreateNestedOneWithoutDwellingsInput
     favDwellings?: FavDwellingCreateNestedManyWithoutDwellingInput
   }
 
   export type DwellingUncheckedCreateWithoutOwnerInput = {
     id?: bigint | number
     direction: string
-    cityId: bigint | number
+    description: string
+    cityId?: bigint | number | null
     zipCode: string
     type: string
     rooms: number
@@ -28445,28 +28780,27 @@ export namespace Prisma {
 
   export type FavSearchDwellingCreateManyUserInput = {
     id?: bigint | number
-    direction: string
-    cityId: bigint | number
-    type: string
-    rooms: number
-    squareMeters: number
-    price: number
-    bathrooms: number
+    cityId?: number | null
+    type?: string | null
+    rooms?: number | null
+    squareMeters?: number | null
+    price?: number | null
+    bathrooms?: number | null
   }
 
   export type FavSearchJobCreateManyUserInput = {
     id?: bigint | number
-    cityId: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    cityId?: bigint | number | null
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
   }
 
   export type FavSearchCityCreateManyUserInput = {
     id?: bigint | number
-    countryId: bigint | number
+    countryId: number
   }
 
   export type FavJobCreateManyUserInput = {
@@ -28476,7 +28810,7 @@ export namespace Prisma {
 
   export type FavCountryCreateManyUserInput = {
     id?: bigint | number
-    countryId: bigint | number
+    countryId: number
   }
 
   export type FavDwellingCreateManyUserInput = {
@@ -28486,65 +28820,62 @@ export namespace Prisma {
 
   export type FavSearchDwellingUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FavSearchDwellingUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FavSearchDwellingUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    type?: StringFieldUpdateOperationsInput | string
-    rooms?: IntFieldUpdateOperationsInput | number
-    squareMeters?: FloatFieldUpdateOperationsInput | number
-    price?: FloatFieldUpdateOperationsInput | number
-    bathrooms?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableIntFieldUpdateOperationsInput | number | null
+    type?: NullableStringFieldUpdateOperationsInput | string | null
+    rooms?: NullableIntFieldUpdateOperationsInput | number | null
+    squareMeters?: NullableFloatFieldUpdateOperationsInput | number | null
+    price?: NullableFloatFieldUpdateOperationsInput | number | null
+    bathrooms?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FavSearchJobUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
-    city?: CityUpdateOneRequiredWithoutFavSearchJobsNestedInput
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: CityUpdateOneWithoutFavSearchJobsNestedInput
   }
 
   export type FavSearchJobUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FavSearchJobUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FavSearchCityUpdateWithoutUserInput = {
@@ -28554,12 +28885,12 @@ export namespace Prisma {
 
   export type FavSearchCityUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavSearchCityUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavJobUpdateWithoutUserInput = {
@@ -28584,12 +28915,12 @@ export namespace Prisma {
 
   export type FavCountryUncheckedUpdateWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavCountryUncheckedUpdateManyWithoutUserInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
   }
 
   export type FavDwellingUpdateWithoutUserInput = {
@@ -28651,20 +28982,21 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    cityId: bigint | number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
   }
 
   export type ProcedureCreateManyCountryInput = {
     id?: bigint | number
     name: string
-    lastUpdate?: Date | string
+    lastUpdate?: Date | string | null
   }
 
   export type FavSearchCityCreateManyCountryInput = {
@@ -28760,13 +29092,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     company?: CompanyUpdateOneRequiredWithoutJobOffersNestedInput
-    city?: CityUpdateOneRequiredWithoutJobOffersNestedInput
+    city?: CityUpdateOneWithoutJobOffersNestedInput
     favJobs?: FavJobUpdateManyWithoutJobNestedInput
   }
 
@@ -28775,14 +29108,15 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     favJobs?: FavJobUncheckedUpdateManyWithoutJobNestedInput
   }
 
@@ -28791,34 +29125,35 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type ProcedureUpdateWithoutCountryInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: DocumentUpdateManyWithoutProcedureNestedInput
   }
 
   export type ProcedureUncheckedUpdateWithoutCountryInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     documents?: DocumentUncheckedUpdateManyWithoutProcedureNestedInput
   }
 
   export type ProcedureUncheckedUpdateManyWithoutCountryInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     name?: StringFieldUpdateOperationsInput | string
-    lastUpdate?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastUpdate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FavSearchCityUpdateWithoutCountryInput = {
@@ -28859,6 +29194,7 @@ export namespace Prisma {
   export type DwellingCreateManyCityInput = {
     id?: bigint | number
     direction: string
+    description: string
     zipCode: string
     type: string
     rooms: number
@@ -28872,23 +29208,24 @@ export namespace Prisma {
     title: string
     description: string
     companyId: bigint | number
-    countryId: bigint | number
+    countryId: number
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
   }
 
   export type FavSearchJobCreateManyCityInput = {
     id?: bigint | number
-    workSector: string
-    experience: string
-    workday: string
-    salary: number
-    contract: string
+    workSector?: string | null
+    experience?: number | null
+    workday?: number | null
+    salary?: number | null
+    journey?: string | null
     userId: bigint | number
   }
 
@@ -28912,6 +29249,7 @@ export namespace Prisma {
   export type DwellingUpdateWithoutCityInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -28924,6 +29262,7 @@ export namespace Prisma {
   export type DwellingUncheckedUpdateWithoutCityInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -28936,6 +29275,7 @@ export namespace Prisma {
   export type DwellingUncheckedUpdateManyWithoutCityInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -28950,11 +29290,12 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     company?: CompanyUpdateOneRequiredWithoutJobOffersNestedInput
     country?: CountryUpdateOneRequiredWithoutJobOffersNestedInput
     favJobs?: FavJobUpdateManyWithoutJobNestedInput
@@ -28965,14 +29306,15 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     favJobs?: FavJobUncheckedUpdateManyWithoutJobNestedInput
   }
 
@@ -28981,43 +29323,44 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     companyId?: BigIntFieldUpdateOperationsInput | bigint | number
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type FavSearchJobUpdateWithoutCityInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutFavSearchJobsNestedInput
   }
 
   export type FavSearchJobUncheckedUpdateWithoutCityInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
   export type FavSearchJobUncheckedUpdateManyWithoutCityInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    workSector?: StringFieldUpdateOperationsInput | string
-    experience?: StringFieldUpdateOperationsInput | string
-    workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
-    contract?: StringFieldUpdateOperationsInput | string
+    workSector?: NullableStringFieldUpdateOperationsInput | string | null
+    experience?: NullableIntFieldUpdateOperationsInput | number | null
+    workday?: NullableIntFieldUpdateOperationsInput | number | null
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
+    journey?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: BigIntFieldUpdateOperationsInput | bigint | number
   }
 
@@ -29045,15 +29388,16 @@ export namespace Prisma {
     id?: bigint | number
     title: string
     description: string
-    countryId: bigint | number
-    cityId: bigint | number
+    countryId: number
+    cityId?: bigint | number | null
     contract: string
     timestampStart: Date | string
-    timestampEnd: Date | string
-    requirements: string
+    timestampEnd?: Date | string | null
+    experience: string
+    requirements?: string | null
     workSector: string
     workday: string
-    salary: number
+    salary?: number | null
   }
 
   export type JobOfferUpdateWithoutCompanyInput = {
@@ -29062,13 +29406,14 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     country?: CountryUpdateOneRequiredWithoutJobOffersNestedInput
-    city?: CityUpdateOneRequiredWithoutJobOffersNestedInput
+    city?: CityUpdateOneWithoutJobOffersNestedInput
     favJobs?: FavJobUpdateManyWithoutJobNestedInput
   }
 
@@ -29076,15 +29421,16 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
     favJobs?: FavJobUncheckedUpdateManyWithoutJobNestedInput
   }
 
@@ -29092,15 +29438,16 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
-    countryId?: BigIntFieldUpdateOperationsInput | bigint | number
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    countryId?: IntFieldUpdateOperationsInput | number
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     contract?: StringFieldUpdateOperationsInput | string
     timestampStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    timestampEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    requirements?: StringFieldUpdateOperationsInput | string
+    timestampEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    experience?: StringFieldUpdateOperationsInput | string
+    requirements?: NullableStringFieldUpdateOperationsInput | string | null
     workSector?: StringFieldUpdateOperationsInput | string
     workday?: StringFieldUpdateOperationsInput | string
-    salary?: FloatFieldUpdateOperationsInput | number
+    salary?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type FavDwellingCreateManyDwellingInput = {
@@ -29126,7 +29473,8 @@ export namespace Prisma {
   export type DwellingCreateManyOwnerInput = {
     id?: bigint | number
     direction: string
-    cityId: bigint | number
+    description: string
+    cityId?: bigint | number | null
     zipCode: string
     type: string
     rooms: number
@@ -29137,19 +29485,21 @@ export namespace Prisma {
   export type DwellingUpdateWithoutOwnerInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
     meters?: FloatFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
-    city?: CityUpdateOneRequiredWithoutDwellingsNestedInput
+    city?: CityUpdateOneWithoutDwellingsNestedInput
     favDwellings?: FavDwellingUpdateManyWithoutDwellingNestedInput
   }
 
   export type DwellingUncheckedUpdateWithoutOwnerInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    description?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
@@ -29161,7 +29511,8 @@ export namespace Prisma {
   export type DwellingUncheckedUpdateManyWithoutOwnerInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     direction?: StringFieldUpdateOperationsInput | string
-    cityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    description?: StringFieldUpdateOperationsInput | string
+    cityId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     zipCode?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     rooms?: IntFieldUpdateOperationsInput | number
