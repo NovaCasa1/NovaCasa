@@ -1,18 +1,26 @@
 {
   "name": "backend-prisma",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "node index.js"
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "license": "ISC",
-  "devDependencies": {
-    "@prisma/client": "^7.3.0",
-    "@types/node": "^25.2.1",
-    "dotenv": "^17.3.1",
-    "prisma": "^7.3.0"
-  },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.4.2"
+    "@prisma/adapter-pg": "^7.4.2",
+    "@prisma/client": "^7.3.0",
+    "dotenv": "^17.3.1",
+    "express": "^4.18.2",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^25.2.1",
+    "@types/pg": "^8.18.0",
+    "prisma": "^7.3.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
   }
 }
