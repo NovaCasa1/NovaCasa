@@ -1,40 +1,34 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'pages/mobLogin.dart';
-<<<<<<< HEAD
+import 'widgets/home_public_page.dart';
 import 'widgets/login_Register/login_page.dart';
-// import 'widgets/homePage.dart';
-
-=======
-import 'pages/homePage.dart';
->>>>>>> 8e3c96ce18ac048a17a3ab81c8eacce689feef50
+import 'widgets/login_Register/register_Page.dart';
+import 'widgets/homePage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
- @override
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'NovaCasa',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF007BFF)),
         useMaterial3: true,
       ),
-<<<<<<< HEAD
-      home: const LoginPage(), // Arranca en LoginPage
+      home: const HomePublicPage(),
       routes: {
-        '/login': (context) => const LoginPage(),
-        // '/home': (context) => const HomePage(),
+        '/home':     (context) => const HomePublicPage(),
+        '/login':    (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
       },
-=======
-      home: kIsWeb ? WebLoginPage() : MobLoginPage(),
->>>>>>> 8e3c96ce18ac048a17a3ab81c8eacce689feef50
     );
   }
 }
