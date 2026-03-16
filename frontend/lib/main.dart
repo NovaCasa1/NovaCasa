@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'pages/mobLogin.dart';
+import 'pages/homePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MobLoginPage(), // Arranca en LoginPage
+      home: kIsWeb ? WebLoginPage() : MobLoginPage(),
     );
   }
 }
