@@ -10,47 +10,45 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: const Color(0xFF1A8FE3),
-      elevation: 0,
-      leadingWidth: 100,
-      leading: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      elevation: 2,
+      automaticallyImplyLeading: false,
+      flexibleSpace: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Row(
           children: [
-            // Ícono de avión + montaña
-            Icon(Icons.flight, color: Colors.white, size: 22),
-            Text(
-              'NovaCasa',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
+            // Logo a la izquierda
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Image.asset(
+                'assets/icons/logo-NovaCasa.png',
+                height: 84,
+                fit: BoxFit.contain,
               ),
             ),
+            const Spacer(),
+            // Items de navegación a la derecha
+            _NavItem(label: 'Inicio'),
+            const SizedBox(width: 32),
+            _NavItem(label: 'Acerca de'),
+            const SizedBox(width: 32),
+            _NavItem(label: 'Servicios'),
+            const SizedBox(width: 32),
+            _NavItem(label: 'Contacto'),
+            const SizedBox(width: 48),
+            // Botones a la derecha
+            _OutlineButton(
+              label: 'Inicio Sesión',
+              onPressed: () {},
+            ),
+            const SizedBox(width: 16),
+            _OutlineButton(
+              label: 'Registrarse',
+              onPressed: () {},
+            ),
+            const SizedBox(width: 8),
           ],
         ),
       ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _NavItem(label: 'Acerca de'),
-          SizedBox(width: 32),
-          _NavItem(label: 'Servicios'),
-        ],
-      ),
-      centerTitle: true,
-      actions: [
-        _OutlineButton(
-          label: 'Inicio Sesión',
-          onPressed: () {},
-        ),
-        const SizedBox(width: 8),
-        _OutlineButton(
-          label: 'Registrarse',
-          onPressed: () {},
-        ),
-        const SizedBox(width: 12),
-      ],
     );
   }
 }
