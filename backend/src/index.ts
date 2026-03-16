@@ -1,19 +1,16 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import authRoutes from './routes/auth.routes';
+import express, { Request, Response } from 'express';
+import { config } from 'dotenv';
+config();
 
-dotenv.config();
+import authRoutes from './routes/auth.routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-
-// Rutas
 app.use('/api/auth', authRoutes);
 
-// Ruta de prueba
-app.get('/', (req, res) => {
+app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'NovaCasa API funcionando ✅' });
 });
 
