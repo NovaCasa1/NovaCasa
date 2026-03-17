@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/mobApp_bar.dart';
+import 'mobHomePage.dart';
 
 class MobLoginPage extends StatefulWidget {
   const MobLoginPage({super.key});
@@ -22,45 +22,46 @@ class _MobLoginPageState extends State<MobLoginPage> {
     super.dispose();
   }
 
-@override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: const MobAppBar(),
-    body: Column(
-      children: [
-        Container(
-          height: 200,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                "assets/images/foto-login-avion-NovaCasa.jpg", 
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            color: Colors.white,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Hello!",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              Container(
+                height: 250,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      "assets/images/foto-login-avion-NovaCasa.jpg",
                     ),
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    "Secure your login with your email and password",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  const SizedBox(height: 25),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  color: Colors.white,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Hello!",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        const Text(
+                          "Secure your login with your email and password",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        const SizedBox(height: 25),
 
                         TextField(
                           controller: emailController,
@@ -89,9 +90,11 @@ Widget build(BuildContext context) {
                               borderSide: BorderSide.none,
                             ),
                             suffixIcon: IconButton(
-                              icon: Icon(isPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off),
+                              icon: Icon(
+                                isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                               onPressed: () {
                                 setState(() {
                                   isPasswordVisible = !isPasswordVisible;
@@ -151,8 +154,13 @@ Widget build(BuildContext context) {
                                 return;
                               }
 
-                              print("Email: $email");
-                              print("Password: $password");
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const MobHomePage(),
+                                ),
+                              );
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.blue,
@@ -164,32 +172,57 @@ Widget build(BuildContext context) {
                             child: const Text(
                               "Sign In",
                               style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white),
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
 
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                          "Don't have an account? "),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text("Sign up"),
-                      ),
-                    ],
+                        Row(
+                          mainAxisAlignment:
+                              MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                                "Don't have an account? "),
+                            TextButton(
+                              onPressed: () {},
+                              child: const Text("Sign up"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
+              ),
+            ],
+          ),
+
+          Positioned(
+            top: 40,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Image.asset(
+                "assets/icons/logo-NovaCasa.png",
+                height: 180,
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
+
+          Positioned(
+            top: 40,
+            right: 15,
+            child: IconButton(
+              icon:
+                  const Icon(Icons.language, color: Colors.blue),
+              onPressed: () {},
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
