@@ -27,13 +27,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             const Spacer(),
             // Items de navegación a la derecha
-            _NavItem(label: 'Inicio'),
+            _NavItem(label: 'Inicio', route: '/'),
             const SizedBox(width: 32),
-            _NavItem(label: 'Acerca de'),
+            _NavItem(label: 'Banderas', route: '/banderas'),
             const SizedBox(width: 32),
-            _NavItem(label: 'Servicios'),
+            _NavItem(label: 'Acerca de', route: '/'),
             const SizedBox(width: 32),
-            _NavItem(label: 'Contacto'),
+            _NavItem(label: 'Contacto', route: '/'),
             const SizedBox(width: 48),
             // Botones a la derecha
             _OutlineButton(
@@ -55,12 +55,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class _NavItem extends StatelessWidget {
   final String label;
-  const _NavItem({required this.label});
+  final String route;
+  const _NavItem({required this.label, required this.route});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, route);
+      },
       child: Text(
         label,
         style: const TextStyle(
