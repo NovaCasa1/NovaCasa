@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'pages/mobLogin.dart';
 import 'pages/homePage.dart';
+import 'pages/serviciosPage.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: kIsWeb ? WebLoginPage() : MobLoginPage(),
+      home: kIsWeb ? const ServiciosPage() : MobLoginPage(),
     );
   }
 }
