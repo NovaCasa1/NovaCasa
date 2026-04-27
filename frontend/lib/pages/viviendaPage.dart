@@ -107,7 +107,7 @@ class ViviendaPage extends StatelessWidget {
                                 vivienda['descripcion']!,
                                 style: const TextStyle(
                                   fontSize: 13,
-                                  color: Colors.grey,
+                                  color: Colors.black,
                                 ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
