@@ -14,5 +14,27 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  backend:
+    build:
+      context: ./backend
+    container_name: novacasa_backend
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://casanova:estocolmo_rubias@db:5432/novacasadb?schema=public
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: novacasa_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
 volumes:
   db_data:
