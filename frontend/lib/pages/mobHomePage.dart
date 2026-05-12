@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../components/mobApp_bar.dart';
 import '../components/mobNav_bar.dart';
+import 'mobProfile.dart';
 
 class MobHomePage extends StatefulWidget {
   const MobHomePage({super.key});
@@ -14,7 +15,7 @@ class _MobHomePageState extends State<MobHomePage> {
 
   final List<Widget> _pages = const [
     _HomeContent(),
-    _PlaceholderPage(icon: Icons.person_rounded, label: "Perfil"),
+    MobProfile(),
     _PlaceholderPage(icon: Icons.settings_rounded, label: "Ajustes"),
   ];
 
@@ -89,7 +90,7 @@ class _HomeContent extends StatelessWidget {
                   context,
                   icon: Icons.home_rounded,
                   label: "Vivienda",
-                  description: "Compra y alquiler de propiedades",
+                  description: "Compra, alquiler y venta de propiedades",
                   gradient: const LinearGradient(
                     colors: [Color(0xFF1565C0), Color(0xFF42A5F5)],
                     begin: Alignment.topLeft,
