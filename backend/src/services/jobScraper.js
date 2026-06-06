@@ -1,35 +1,35 @@
-const axios  = require('axios');
+const axios = require('axios');
 const prisma = require('../config/prisma');
 
 const COUNTRY_DATA = {
-  'USA':         { name: 'United States',  continent: 'America',  code: 'NY'  },
-  'UK':          { name: 'United Kingdom', continent: 'Europe',   code: 'LON' },
-  'Germany':     { name: 'Germany',        continent: 'Europe',   code: 'BER' },
-  'France':      { name: 'France',         continent: 'Europe',   code: 'PAR' },
-  'Netherlands': { name: 'Netherlands',    continent: 'Europe',   code: 'AMS' },
-  'Spain':       { name: 'Spain',          continent: 'Europe',   code: 'MAD' },
-  'Portugal':    { name: 'Portugal',       continent: 'Europe',   code: 'LIS' },
-  'Canada':      { name: 'Canada',         continent: 'America',  code: 'TOR' },
-  'Australia':   { name: 'Australia',      continent: 'Oceania',  code: 'SYD' },
-  'Remote':      { name: 'Remote',         continent: 'Global',   code: 'REM' },
+  'USA': { name: 'United States', continent: 'America', code: 'NY' },
+  'UK': { name: 'United Kingdom', continent: 'Europe', code: 'LON' },
+  'Germany': { name: 'Germany', continent: 'Europe', code: 'BER' },
+  'France': { name: 'France', continent: 'Europe', code: 'PAR' },
+  'Netherlands': { name: 'Netherlands', continent: 'Europe', code: 'AMS' },
+  'Spain': { name: 'Spain', continent: 'Europe', code: 'MAD' },
+  'Portugal': { name: 'Portugal', continent: 'Europe', code: 'LIS' },
+  'Canada': { name: 'Canada', continent: 'America', code: 'TOR' },
+  'Australia': { name: 'Australia', continent: 'Oceania', code: 'SYD' },
+  'Remote': { name: 'Remote', continent: 'Global', code: 'REM' },
 };
 
 function detectCountry(location = '') {
   const l = location.toLowerCase();
-  if (l.includes('germany')     || l.includes('berlin'))      return 'Germany';
-  if (l.includes('france')      || l.includes('paris'))       return 'France';
-  if (l.includes('netherlands') || l.includes('amsterdam'))   return 'Netherlands';
-  if (l.includes('spain')       || l.includes('madrid'))      return 'Spain';
-  if (l.includes('portugal')    || l.includes('lisbon'))      return 'Portugal';
-  if (l.includes('uk')          || l.includes('london'))      return 'UK';
-  if (l.includes('canada'))                                    return 'Canada';
-  if (l.includes('australia'))                                 return 'Australia';
+  if (l.includes('germany') || l.includes('berlin')) return 'Germany';
+  if (l.includes('france') || l.includes('paris')) return 'France';
+  if (l.includes('netherlands') || l.includes('amsterdam')) return 'Netherlands';
+  if (l.includes('spain') || l.includes('madrid')) return 'Spain';
+  if (l.includes('portugal') || l.includes('lisbon')) return 'Portugal';
+  if (l.includes('uk') || l.includes('london')) return 'UK';
+  if (l.includes('canada')) return 'Canada';
+  if (l.includes('australia')) return 'Australia';
   if (l.includes('usa') || l.includes('united states') || l.includes('new york')) return 'USA';
   return 'Remote';
 }
 
 function extractCity(location = '') {
-  if (!location || ['worldwide','remote','anywhere'].includes(location.toLowerCase())) {
+  if (!location || ['worldwide', 'remote', 'anywhere'].includes(location.toLowerCase())) {
     return { name: 'Remote', code: 'REM' };
   }
   const cityName = location.split(/[,\/]/)[0].trim() || 'Remote';
@@ -39,14 +39,14 @@ function extractCity(location = '') {
 function stripHtml(html = '') {
   return html
     .replace(/<[^>]*>/g, ' ')
-    .replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'")
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")
     .replace(/\s+/g, ' ').trim().substring(0, 500);
 }
 
 async function upsertCountry(key) {
   const d = COUNTRY_DATA[key] || COUNTRY_DATA['Remote'];
   return prisma.country.upsert({
-    where:  { name: d.name },
+    where: { name: d.name },
     update: {},
     create: { name: d.name, continent: d.continent, code: d.code },
   });
@@ -77,14 +77,18 @@ async function fetchRemoteOK() {
     return jobs
       .filter(j => j.company && j.position)
       .map(j => ({
-        externalId:  `ROK-${j.id || j.slug}`,
-        title:       j.position,
-        company:     j.company,
-        location:    j.location || 'Remote',
+        externalId: `ROK-${j.id || j.slug}`,
+        title: j.position,
+        company: j.company,
+        location: j.location || 'Remote',
         description: stripHtml(j.description) || j.position,
-        tags:        Array.isArray(j.tags) ? j.tags : [],
-        salary:      j.salary_min ? parseFloat(j.salary_min) : null,
-        jobType:     j.job_type || 'full_time',
+        tags: Array.isArray(j.tags) ? j.tags : [],
+        salary: (() => {
+          const raw = j.salary_min || j.salary_max;
+          if (!raw) return null;
+          const val = parseFloat(raw);
+          return val < 1000 ? val * 1000 : val;
+        })(), jobType: j.job_type || 'full_time',
       }));
   } catch (err) {
     console.warn(`[scrapeJobs] RemoteOK no accesible: ${err.message}`);
@@ -105,14 +109,14 @@ async function fetchRemotive() {
     return jobs
       .filter(j => j.company_name && j.title)
       .map(j => ({
-        externalId:  `RMT-${j.id}`,
-        title:       j.title,
-        company:     j.company_name,
-        location:    j.candidate_required_location || 'Remote',
+        externalId: `RMT-${j.id}`,
+        title: j.title,
+        company: j.company_name,
+        location: j.candidate_required_location || 'Remote',
         description: stripHtml(j.description) || j.title,
-        tags:        Array.isArray(j.tags) ? j.tags : [j.category].filter(Boolean),
-        salary:      parseSalary(j.salary),
-        jobType:     j.job_type || 'full_time',
+        tags: Array.isArray(j.tags) ? j.tags : [j.category].filter(Boolean),
+        salary: parseSalary(j.salary),
+        jobType: j.job_type || 'full_time',
       }));
   } catch (err) {
     console.warn(`[scrapeJobs] Remotive no accesible: ${err.message}`);
@@ -125,7 +129,8 @@ function parseSalary(raw) {
   if (!raw) return null;
   const match = String(raw).match(/\d[\d,]*/);
   if (!match) return null;
-  return parseFloat(match[0].replace(/,/g, ''));
+  const val = parseFloat(match[0].replace(/,/g, ''));
+  return val < 1000 ? val * 1000 : val;
 }
 
 // ─── Función principal ───────────────────────────────────────────────────────
@@ -137,15 +142,15 @@ async function scrapeJobs() {
   console.log(`[scrapeJobs] Total a procesar: ${allJobs.length} ofertas`);
 
   let insertados = 0;
-  let omitidos   = 0;
+  let omitidos = 0;
 
   for (const job of allJobs) {
     try {
       const countryKey = detectCountry(job.location);
-      const cityInfo   = extractCity(job.location);
+      const cityInfo = extractCity(job.location);
 
       const country = await upsertCountry(countryKey);
-      const city    = await upsertCity(cityInfo, country.id);
+      const city = await upsertCity(cityInfo, country.id);
       const company = await upsertCompany(job.company, city.id);
 
       // Deduplicación por externalId guardado en requirements
@@ -154,30 +159,30 @@ async function scrapeJobs() {
       });
       if (exists) { omitidos++; continue; }
 
-      const tags       = job.tags.slice(0, 5);
+      const tags = job.tags.slice(0, 5);
       const workSector = tags[0] || 'Technology';
-      const isRemote   = job.location.toLowerCase().includes('remote')
-                      || job.location.toLowerCase().includes('worldwide')
-                      || job.location.toLowerCase().includes('anywhere');
+      const isRemote = job.location.toLowerCase().includes('remote')
+        || job.location.toLowerCase().includes('worldwide')
+        || job.location.toLowerCase().includes('anywhere');
 
       await prisma.jobOffer.create({
         data: {
-          title:          job.title,
-          description:    job.description,
-          companyId:      company.id,
-          countryId:      country.id,
-          cityId:         city.id,
-          contract:       job.jobType === 'full_time' ? 'Full-time'
-                        : job.jobType === 'part_time' ? 'Part-time'
-                        : job.jobType === 'freelance' ? 'Freelance'
-                        : 'Full-time',
+          title: job.title,
+          description: job.description,
+          companyId: company.id,
+          countryId: country.id,
+          cityId: city.id,
+          contract: job.jobType === 'full_time' ? 'Full-time'
+            : job.jobType === 'part_time' ? 'Part-time'
+              : job.jobType === 'freelance' ? 'Freelance'
+                : 'Full-time',
           timestampStart: new Date(),
-          experience:     'Not specified',
+          experience: 'Not specified',
           // El externalId al inicio permite buscarlo de forma eficiente
-          requirements:   `[${job.externalId}] ${tags.join(', ')}`,
+          requirements: `[${job.externalId}] ${tags.join(', ')}`,
           workSector,
-          workday:        isRemote ? 'Remote' : 'On-site',
-          salary:         job.salary,
+          workday: isRemote ? 'Remote' : 'On-site',
+          salary: job.salary,
         },
       });
       insertados++;

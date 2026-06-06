@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../components/custom_app_bar.dart';
-import '../../../services/api_service.dart';
-import '../../../documentosNovaCasa/layouts/vivienda_card.dart';
+import '../components/custom_app_bar.dart';
+import '../services/api_service.dart';
+import 'layouts/vivienda_card.dart';
 
 class ViviendaPage extends StatefulWidget {
   const ViviendaPage({super.key});

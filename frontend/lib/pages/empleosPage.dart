@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../components/custom_app_bar.dart';
-import '../../../services/api_service.dart';
-import '../../../documentosNovaCasa/layouts/empleo_card.dart';
+import '../components/custom_app_bar.dart';
+import '../services/api_service.dart';
+import 'layouts/empleo_card.dart';
 
 class EmpleosPage extends StatefulWidget {
   const EmpleosPage({super.key});
