@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import '../../../components/custom_app_bar.dart';
 import '../../../services/api_service.dart';
-import '../../../documentosNovaCasa/layouts/vivienda_card.dart';
+import '../../../documentosNovaCasa/layouts/empleo_card.dart';
 
-class ViviendaPage extends StatefulWidget {
-  const ViviendaPage({super.key});
+class EmpleosPage extends StatefulWidget {
+  const EmpleosPage({super.key});
 
   @override
-  State<ViviendaPage> createState() => _ViviendaPageState();
+  State<EmpleosPage> createState() => _EmpleosPageState();
 }
 
-class _ViviendaPageState extends State<ViviendaPage> {
-  late Future<List<Map<String, dynamic>>> _viviendasFuture;
+class _EmpleosPageState extends State<EmpleosPage> {
+  late Future<List<Map<String, dynamic>>> _empleosFuture;
 
   @override
   void initState() {
     super.initState();
-    _viviendasFuture = ApiService.getViviendas();
+    _empleosFuture = ApiService.getEmpleos();
   }
 
   @override
@@ -26,7 +26,7 @@ class _ViviendaPageState extends State<ViviendaPage> {
     return Scaffold(
       appBar: const CustomAppBar(),
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: _viviendasFuture,
+        future: _empleosFuture,
         builder: (context, snapshot) {
           // Cargando
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -45,7 +45,7 @@ class _ViviendaPageState extends State<ViviendaPage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () => setState(() {
-                      _viviendasFuture = ApiService.getViviendas();
+                      _empleosFuture = ApiService.getEmpleos();
                     }),
                     child: const Text('Reintentar'),
                   ),
@@ -55,9 +55,9 @@ class _ViviendaPageState extends State<ViviendaPage> {
           }
 
           // Sin datos
-          final viviendas = snapshot.data ?? [];
-          if (viviendas.isEmpty) {
-            return const Center(child: Text('No hay viviendas disponibles'));
+          final empleos = snapshot.data ?? [];
+          if (empleos.isEmpty) {
+            return const Center(child: Text('No hay ofertas de empleo disponibles'));
           }
 
           // Lista / Grid
@@ -68,9 +68,9 @@ class _ViviendaPageState extends State<ViviendaPage> {
                   ? ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: viviendas.length,
+                      itemCount: empleos.length,
                       itemBuilder: (context, index) =>
-                          ViviendaCard(vivienda: viviendas[index]),
+                          EmpleoCard(empleo: empleos[index]),
                     )
                   : GridView.builder(
                       shrinkWrap: true,
@@ -82,9 +82,9 @@ class _ViviendaPageState extends State<ViviendaPage> {
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16,
                       ),
-                      itemCount: viviendas.length,
+                      itemCount: empleos.length,
                       itemBuilder: (context, index) =>
-                          ViviendaCard(vivienda: viviendas[index]),
+                          EmpleoCard(empleo: empleos[index]),
                     ),
             ),
           );

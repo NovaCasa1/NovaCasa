@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../components/custom_app_bar.dart';
 import 'viviendaPage.dart';
+import 'empleosPage.dart';
+import 'tramitesPage.dart';
 
 class ServiciosPage extends StatelessWidget {
   const ServiciosPage({super.key});
@@ -36,7 +38,14 @@ class ServiciosPage extends StatelessWidget {
                   _ServiceCard(
                     titulo: 'Empleo',
                     imagen: 'assets/images/empleo_servicios.jpg',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const EmpleosPage(),
+                        ),
+                      );
+                    },
                   ),
                   _ServiceCard(
                     titulo: 'Viviendas',
@@ -53,7 +62,14 @@ class ServiciosPage extends StatelessWidget {
                   _ServiceCard(
                     titulo: 'Trámites',
                     imagen: 'assets/images/tramites.jpg',
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TramitesPage(),
+                        ),
+                      );
+                    },
                   ),
                 ],
               ),
