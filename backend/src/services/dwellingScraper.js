@@ -122,7 +122,7 @@ async function upsertCountry(seed) {
   return prisma.country.upsert({
     where:  { name: seed.countryName },
     update: {},
-    create: { name: seed.countryName, continent: seed.continent },
+    create: { name: seed.countryName, continent: seed.continent, code: seed.countryName.substring(0, 3).toUpperCase() },
   });
 }
 
